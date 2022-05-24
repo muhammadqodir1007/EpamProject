@@ -1,6 +1,6 @@
 package database;
 
-import beans.PeopleBean;
+import entity.PeopleBean;
 
 import java.sql.*;
 import java.util.ArrayList;
