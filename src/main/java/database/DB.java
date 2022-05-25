@@ -6,16 +6,16 @@ import java.sql.SQLException;
 
 public class DB {
 
-  public static Connection getConnection(){
-Connection connection=null;
-      try {
-          Class.forName("org.postgresql.Driver");
-         connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Epam", "postgres", "1007");
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Epam", "postgres", "root");
 
-      } catch (SQLException | ClassNotFoundException e) {
-          e.printStackTrace();
-      }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-return connection;
-  }
+        return connection;
+    }
 }
