@@ -1,15 +1,16 @@
-package database;
+package service.people;
 
+import database.DB;
 import entity.PeopleBean;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeopleDb {
+public class PeopleServiceImpl implements PeopleService{
 
-    public static int save(PeopleBean bean) {
-
+    @Override
+    public int save(PeopleBean bean) {
         Connection connection = DB.getConnection();
         PreparedStatement preparedStatement = null;
         int res = 0;
@@ -27,7 +28,8 @@ public class PeopleDb {
 
     }
 
-    public static boolean existByEmail(String email) throws SQLException {
+    @Override
+    public Boolean existByEmail(String email) throws SQLException {
         Connection connection = DB.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("select name from people where email=?");
@@ -43,18 +45,15 @@ public class PeopleDb {
         }
         connection.close();
         return false;
-
-
     }
 
-    public static PeopleBean getByEmail(String email) throws SQLException {
+    @Override
+    public PeopleBean getByEmail(String email) throws SQLException {
         PeopleBean peopleBean = new PeopleBean();
         Connection connection = DB.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("select * from people where email=?");
         preparedStatement.setString(1, email);
-
         ResultSet rs = preparedStatement.executeQuery();
-
         while (rs.next()) {
             peopleBean.setId(rs.getInt(1));
             peopleBean.setName(rs.getString(2));
@@ -62,13 +61,12 @@ public class PeopleDb {
             peopleBean.setPassword(rs.getString(4));
 
         }
-
         connection.close();
         return peopleBean;
-
     }
 
-    public static List<PeopleBean> getAll() throws SQLException {
+    @Override
+    public List<PeopleBean> getAll() throws SQLException {
         List<PeopleBean> list = new ArrayList<>();
         Connection connection = DB.getConnection();
         Statement statement = connection.createStatement();
@@ -87,17 +85,15 @@ public class PeopleDb {
         connection.close();
         return list;
 
-
     }
 
-    public static int delete(String email) throws SQLException {
+    @Override
+    public void delete(String email) throws SQLException  {
         int res = 0;
         Connection connection = DB.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("delete from people where email=?");
         preparedStatement.setString(1,email);
         int i = preparedStatement.executeUpdate();
-        return i;
+
     }
-
-
 }
