@@ -7,15 +7,12 @@ import java.sql.SQLException;
 public class DB {
 
     public static Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Epam", "postgres", "root");
 
-        } catch (SQLException | ClassNotFoundException e) {
+        Connection connection=null;
+        try {
+            connection=DriverManager.getConnection("jdbc:postgresql://localhost/Epam","postgres","1007");        } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return connection;
     }
 }
