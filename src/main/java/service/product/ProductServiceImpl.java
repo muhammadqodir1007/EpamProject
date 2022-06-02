@@ -7,10 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductServiceImpl implements ProductService {
-
-   @Override
-    public int addNews(ProductBean productBean) {
+public class ProductServiceImpl implements ProductService{
+    @Override
+    public int addNews(ProductBean productBean) throws SQLException {
         Connection connection = DB.getConnection();
         int i = 0;
         try {
