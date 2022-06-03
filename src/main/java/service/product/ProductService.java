@@ -8,12 +8,14 @@ import java.util.List;
 
 public interface ProductService {
     int addNews(ProductBean productBean) throws SQLException;
+
     List<ProductBean> getAll() throws SQLException;
+
     ProductBean getOne(int id) throws SQLException;
+
     int delete(int id) throws SQLException;
+
     int edit(int id);
-
-
 
 
 }

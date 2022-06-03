@@ -1,6 +1,5 @@
 package controller;
 
-import database.DB;
 import entity.ProductBean;
 import service.product.ProductServiceImpl;
 
@@ -12,21 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.sql.*;
-import java.util.Arrays;
+import java.sql.Date;
+import java.sql.SQLException;
 
-@WebServlet("/admin")
-@MultipartConfig()
-public class Admin extends HttpServlet {
-
+@WebServlet("/addNews")
+@MultipartConfig
+public class AddNews extends HttpServlet {
 
     ProductServiceImpl productService = new ProductServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("admin.jsp");
+        resp.sendRedirect("addNews.html");
     }
 
 
@@ -40,14 +36,14 @@ public class Admin extends HttpServlet {
         ProductBean bean = new ProductBean(name, title, description, date, photo.getInputStream().readAllBytes());
         try {
             int i = productService.addNews(bean);
+            if (i != 0) {
+                resp.sendRedirect("addNews");
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        PrintWriter writer = resp.getWriter();
-        resp.setContentType("text/jsp");
-        writer.write("Successfully added");
 
     }
 }
-
