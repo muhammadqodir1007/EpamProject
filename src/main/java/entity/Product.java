@@ -2,23 +2,30 @@ package entity;
 
 
 import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class Product {
     private Long id;
-    private String title;
-    private Data dataCreated;
+    private String titles;
     private String description;
-    private String photoOfNews;
+    private String sourcelinkTo;
+    private Date createdTime;
+    private String photofile;
 
     public Product() {
     }
 
-    public Product(Long id, String title, Data dataCreated, String description, String photoOfNews) {
+    public Product(Long id, String titles,
+                   String description,
+                   String sourcelinkTo,
+                   Date createdTime,
+                   String photofile) {
         this.id = id;
-        this.title = title;
-        this.dataCreated = dataCreated;
+        this.titles = titles;
         this.description = description;
-        this.photoOfNews = photoOfNews;
+        this.sourcelinkTo = sourcelinkTo;
+        this.createdTime = createdTime;
+        this.photofile = photofile;
     }
 
     public Long getId() {
@@ -29,20 +36,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitles() {
+        return titles;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Data getDataCreated() {
-        return dataCreated;
-    }
-
-    public void setDataCreated(Data dataCreated) {
-        this.dataCreated = dataCreated;
+    public void setTitles(String titles) {
+        this.titles = titles;
     }
 
     public String getDescription() {
@@ -53,11 +52,27 @@ public class Product {
         this.description = description;
     }
 
-    public String getPhotoOfNews() {
-        return photoOfNews;
+    public String getSourcelinkTo() {
+        return sourcelinkTo;
     }
 
-    public void setPhotoOfNews(String photoOfNews) {
-        this.photoOfNews = photoOfNews;
+    public void setSourcelinkTo(String sourcelinkTo) {
+        this.sourcelinkTo = sourcelinkTo;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public String getPhotofile() {
+        return photofile;
+    }
+
+    public void setPhotofile(String photofile) {
+        this.photofile = photofile;
     }
 }
