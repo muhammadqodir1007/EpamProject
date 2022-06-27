@@ -1,15 +1,26 @@
-<!DOCTYPE html>
-<html lang="en" .>
+<%--
+  Created by IntelliJ IDEA.
+  User: Muhammadqodir
+  Date: 6/25/2022
+  Time: 11:13 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>admin</title>
-
-
+    <title>Title</title>
+    <style>
+        .gradient-custom {
+            background: radial-gradient(50% 123.47% at 50% 50%, #00ff94 0%, #720059 100%),
+            linear-gradient(121.28deg, #669600 0%, #ff0000 100%),
+            linear-gradient(360deg, #0029ff 0%, #8fff00 100%),
+            radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%),
+            radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
+            background-blend-mode: screen, color-dodge, overlay, difference, normal;
+        }
+    </style>
 </head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<body style="background-color: azure">
-
+<body>
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -118,6 +129,5 @@
         </div>
     </div>
 </section>
-
 </body>
 </html>

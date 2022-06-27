@@ -5,30 +5,22 @@ import java.sql.Date;
 
 public class ProductBean {
 
-    int id;
-    String name,title,description;
-    Date createdDate;
-    byte [] photo;
 
-    public ProductBean() {
-        super();
-    }
+    int id,categoryId;
 
-    public ProductBean(String name, String title, String description, Date createdDate, byte[] photo) {
-        this.name = name;
-        this.title = title;
-        this.description = description;
-        this.createdDate = createdDate;
-        this.photo = photo;
-    }
+    byte[] photoFile;
+    String titles, description, sourceLinkTo, text;
+    Date createdTime;
 
-    public ProductBean(int id, String name, String title, String description, Date createdDate, byte [] photo) {
+    public ProductBean(int id, int categoryId, byte[] photoFile, String titles, String description, String sourceLinkTo, String text, Date createdTime) {
         this.id = id;
-        this.name = name;
-        this.title = title;
+        this.categoryId = categoryId;
+        this.photoFile = photoFile;
+        this.titles = titles;
         this.description = description;
-        this.createdDate = createdDate;
-        this.photo = photo;
+        this.sourceLinkTo = sourceLinkTo;
+        this.text = text;
+        this.createdTime = createdTime;
     }
 
     public int getId() {
@@ -39,20 +31,28 @@ public class ProductBean {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getTitle() {
-        return title;
+    public byte[] getPhotoFile() {
+        return photoFile;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPhotoFile(byte[] photoFile) {
+        this.photoFile = photoFile;
+    }
+
+    public String getTitles() {
+        return titles;
+    }
+
+    public void setTitles(String titles) {
+        this.titles = titles;
     }
 
     public String getDescription() {
@@ -63,19 +63,40 @@ public class ProductBean {
         this.description = description;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public String getSourceLinkTo() {
+        return sourceLinkTo;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setSourceLinkTo(String sourceLinkTo) {
+        this.sourceLinkTo = sourceLinkTo;
     }
 
-    public byte [] getPhoto() {
-        return photo;
+    public String getText() {
+        return text;
     }
 
-    public void setPhoto(byte [] photo) {
-        this.photo = photo;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public ProductBean() {
+    }
+
+    public ProductBean(int categoryId, byte[] photoFile, String titles, String description, String sourceLinkTo, String text, Date createdTime) {
+        this.categoryId = categoryId;
+        this.photoFile = photoFile;
+        this.titles = titles;
+        this.description = description;
+        this.sourceLinkTo = sourceLinkTo;
+        this.text = text;
+        this.createdTime = createdTime;
     }
 }
