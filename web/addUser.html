@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddUser</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<form action="/addNews" , method="post" enctype="multipart/form-data">
+
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">username</label>
+            <input type="text" name="userName" class="form-control" id="inputEmail4" placeholder="UserName">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">fullName</label>
+            <input type="text" name="fullName" class="form-control" id="inputPassword4" placeholder="fullname">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">password</label>
+        <input type="password" name="password" class="form-control" id="inputAddress" placeholder="password">
+    </div>
+
+    <div class="form-group">
+        <label for="inputAddress2">email</label>
+        <input type="email" class="form-control" id="inputAddress2" name="email" placeholder="email">
+    </div>
+    <div class="form-group">
+        <label for="inputAddress2">phoneNumber</label>
+        <input type="text" class="form-control" id="inputAddress3" name="phoneNumber" placeholder="phoneNumber">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Add</button>
+
+
+    <a href="index.jsp">Back to Home</a>
+
+
+
+
+</form>
+
+</body>
+</html>

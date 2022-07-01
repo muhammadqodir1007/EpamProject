@@ -6,7 +6,7 @@ import java.sql.Date;
 public class ProductBean {
 
 
-    int id,categoryId;
+    int id, categoryId;
 
     byte[] photoFile;
     String titles, description, sourceLinkTo, text;

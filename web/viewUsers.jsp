@@ -1,4 +1,7 @@
-<%--
+<%@ page import="service.people.PeopleService" %>
+<%@ page import="entity.PeopleBean" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Iterator" %><%--
   Created by IntelliJ IDEA.
   User: Muhammadqodir
   Date: 6/25/2022
@@ -16,6 +19,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
+<%
+
+    PeopleService peopleService=new PeopleService();
+    List<PeopleBean> list = peopleService.getAll();
+   Iterator it=list.iterator();
+    while(it.hasNext()){
+        PeopleBean user=(PeopleBean) it.next();
+
+
+%>
 </div>
 <div class="sidebar">
     <div class="logo-details">

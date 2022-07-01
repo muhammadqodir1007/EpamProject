@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             list = new ArrayList<>();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from public.\"product\"");
+            ResultSet resultSet = statement.executeQuery("select * from public.\"product\"  ");
             while (resultSet.next()) {
                 ProductBean productBean = new ProductBean();
                 productBean.setId(resultSet.getInt(1));

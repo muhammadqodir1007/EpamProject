@@ -2,7 +2,13 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="controller.Login" %><%--
+<%@ page import="controller.Login" %>
+<%@ page import="java.util.Stack" %>
+<%@ page import="entity.ProductBean" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="service.people.PeopleService" %>
+<%@ page import="entity.PeopleBean" %><%--
   Created by IntelliJ IDEA.
   User: Muhammadqodir
   Date: 6/24/2022
@@ -26,87 +32,108 @@
     Connection connection = DB.getConnection();
     Statement statement = connection.createStatement();
     ResultSet resultSet = statement.executeQuery("select count(*) from public.\"product\"");
-    int numberOfNews =0;
-   while (resultSet.next()){
-       numberOfNews = resultSet.getInt(1);
-   }
+    int numberOfNews = 0;
+    while (resultSet.next()) {
+        numberOfNews = resultSet.getInt(1);
+    }
     Statement statement1 = connection.createStatement();
     ResultSet resultSet1 = statement1.executeQuery("select count(*) from public.\"users\"");
-    int numberOfUsers=0;
-    while (resultSet1.next()){
+    int numberOfUsers = 0;
+    while (resultSet1.next()) {
 
-         numberOfUsers= resultSet1.getInt(1);
+        numberOfUsers = resultSet1.getInt(1);
 
     }
     connection.close();
     Connection connection1 = DB.getConnection();
-    connection1.prepareStatement("");
+    Statement statement2 = connection1.createStatement();
+    ResultSet rs = statement2.executeQuery("select * from public.\"product\" order by \"createdTime\" desc limit 10");
+    List<ProductBean> list = new ArrayList<>();
+
+
+    while (rs.next()) {
+        ProductBean productBean = new ProductBean();
+        productBean.setId(rs.getInt(1));
+        productBean.setTitles(rs.getString(2));
+        productBean.setDescription(rs.getString(3));
+        productBean.setSourceLinkTo(rs.getString(4));
+        productBean.setCreatedTime(rs.getDate(5));
+        productBean.setCategoryId(rs.getInt(6));
+        productBean.setPhotoFile(rs.getBytes(7));
+        productBean.setText(rs.getString(8));
+        list.add(productBean);
+
+    }
+
+    PeopleService peopleService=new PeopleService();
+    List<PeopleBean> all = peopleService.getAll();
+
 
 
 %>
 <div class="sidebar">
-    <div class="logo-details" >
+    <div class="logo-details">
         <i class='bx bxl-c-plus-plus'></i>
         <span class="logo_name">NewsPortal</span>
     </div>
     <ul class="nav-links">
         <li>
             <a href="index.jsp" class="active">
-                <i class='bx bx-grid-alt' ></i>
+                <i class='bx bx-grid-alt'></i>
                 <span class="links_name">Dashboard</span>
             </a>
         </li>
         <li>
             <a href="/viewNews">
-                <i class='bx bx-box' ></i>
+                <i class='bx bx-box'></i>
                 <span class="links_name">Product</span>
             </a>
         </li>
         <li>
-            <a href="viewUsers.jsp">
-                <i class='bx bx-list-ul' ></i>
+            <a href="viewUsers">
+                <i class='bx bx-list-ul'></i>
                 <span class="links_name">Users list</span>
             </a>
         </li>
         <li>
             <a href="#">
-                <i class='bx bx-pie-chart-alt-2' ></i>
+                <i class='bx bx-pie-chart-alt-2'></i>
                 <span class="links_name">Analytics</span>
             </a>
         </li>
         <li>
-            <a href="#">
-                <i class='bx bx-coin-stack' ></i>
-                <span class="links_name">Stock</span>
+            <a href="/addNews">
+                <i class='bx bx-coin-stack'></i>
+                <span class="links_name">AddNews</span>
             </a>
         </li>
         <li>
             <a href="#">
-                <i class='bx bx-book-alt' ></i>
-                <span class="links_name">Total order</span>
+                <i class='bx bx-book-alt'></i>
+                <span class="links_name"></span>
             </a>
         </li>
         <li>
-            <a href="#">
-                <i class='bx bx-user' ></i>
+            <a href="/viewUsers.jsp">
+                <i class='bx bx-user'></i>
                 <span class="links_name">Team</span>
             </a>
         </li>
         <li>
             <a href="#">
-                <i class='bx bx-message' ></i>
+                <i class='bx bx-message'></i>
                 <span class="links_name">Messages</span>
             </a>
         </li>
         <li>
             <a href="#">
-                <i class='bx bx-heart' ></i>
+                <i class='bx bx-heart'></i>
                 <span class="links_name">Favrorites</span>
             </a>
         </li>
         <li>
             <a href="#">
-                <i class='bx bx-cog' ></i>
+                <i class='bx bx-cog'></i>
                 <span class="links_name">Setting</span>
             </a>
         </li>
@@ -126,12 +153,12 @@
         </div>
         <div class="search-box">
             <input type="text" placeholder="Search...">
-            <i class='bx bx-search' ></i>
+            <i class='bx bx-search'></i>
         </div>
         <div class="profile-details">
             <!--<img src="images/profile.jpg" alt="">-->
             <span class="admin_name"><%=Login.name%></span>
-            <i class='bx bx-chevron-down' ></i>
+            <i class='bx bx-chevron-down'></i>
         </div>
     </nav>
 
@@ -140,7 +167,8 @@
             <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Total News</div>
-                    <div class="number"><%=numberOfNews%></div>
+                    <div class="number"><%=numberOfNews%>
+                    </div>
                     <div class="indicator">
                         <i class='bx bx-up-arrow-alt'></i>
                         <span class="text">Up from yesterday</span>
@@ -151,13 +179,14 @@
             <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Total Users</div>
-                    <div class="number"><%=numberOfUsers%></div>
+                    <div class="number"><%=numberOfUsers%>
+                    </div>
                     <div class="indicator">
                         <i class='bx bx-up-arrow-alt'></i>
                         <span class="text">Up from yesterday</span>
                     </div>
                 </div>
-                <i class='bx bxs-cart-add cart two' ></i>
+                <i class='bx bxs-cart-add cart two'></i>
             </div>
             <div class="box">
                 <div class="right-side">
@@ -168,7 +197,7 @@
                         <span class="text">Up from yesterday</span>
                     </div>
                 </div>
-                <i class='bx bx-cart cart three' ></i>
+                <i class='bx bx-cart cart three'></i>
             </div>
             <div class="box">
                 <div class="right-side">
@@ -179,141 +208,40 @@
                         <span class="text">Down From Today</span>
                     </div>
                 </div>
-                <i class='bx bxs-cart-download cart four' ></i>
+                <i class='bx bxs-cart-download cart four'></i>
             </div>
         </div>
 
         <div class="sales-boxes">
             <div class="recent-sales box">
-                <div class="title">Recent Sales</div>
+                <div class="title">Recently added News</div>
 
-<%--                <div class="sales-details">--%>
-                    <ul class="details">
-                        <li class="topic">Date</li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#"></a></li>
-                    </ul>
-<%--                    <ul class="details">--%>
-<%--                        <li class="topic">Customer</li>--%>
-<%--                        <li><a href="#">Alex Doe</a></li>--%>
-<%--                        <li><a href="#">David Mart</a></li>--%>
-<%--                        <li><a href="#">Roe Parter</a></li>--%>
-<%--                        <li><a href="#">Diana Penty</a></li>--%>
-<%--                        <li><a href="#">Martin Paw</a></li>--%>
-<%--                        <li><a href="#">Doe Alex</a></li>--%>
-<%--                        <li><a href="#">Aiana Lexa</a></li>--%>
-<%--                        <li><a href="#">Rexel Mags</a></li>--%>
-<%--                        <li><a href="#">Tiana Loths</a></li>--%>
-<%--                    </ul>--%>
-<%--                    <ul class="details">--%>
-<%--                        <li class="topic">Sales</li>--%>
-<%--                        <li><a href="#">Delivered</a></li>--%>
-<%--                        <li><a href="#">Pending</a></li>--%>
-<%--                        <li><a href="#">Returned</a></li>--%>
-<%--                        <li><a href="#">Delivered</a></li>--%>
-<%--                        <li><a href="#">Pending</a></li>--%>
-<%--                        <li><a href="#">Returned</a></li>--%>
-<%--                        <li><a href="#">Delivered</a></li>--%>
-<%--                        <li><a href="#">Pending</a></li>--%>
-<%--                        <li><a href="#">Delivered</a></li>--%>
-<%--                    </ul>--%>
-<%--                    <ul class="details">--%>
-<%--                        <li class="topic">Total</li>--%>
-<%--                        <li><a href="#">$204.98</a></li>--%>
-<%--                        <li><a href="#">$24.55</a></li>--%>
-<%--                        <li><a href="#">$25.88</a></li>--%>
-<%--                        <li><a href="#">$170.66</a></li>--%>
-<%--                        <li><a href="#">$56.56</a></li>--%>
-<%--                        <li><a href="#">$44.95</a></li>--%>
-<%--                        <li><a href="#">$67.33</a></li>--%>
-<%--                        <li><a href="#">$23.53</a></li>--%>
-<%--                        <li><a href="#">$46.52</a></li>--%>
-<%--                    </ul>--%>
-                </div>
-<%--                <div class="button">--%>
-<%--                    <a href="#">See All</a>--%>
-<%--                </div>--%>
+                <%--                <div class="sales-details">--%>
+                <ul class="details" style="font-family: 'Arial Black'">
+                    <li><a href="/returnOne?id=<%=list.get(0).getId()%>"><%=list.get(list.size()-1).getCreatedTime()%></a>    <%=list.get(0).getTitles()%></li>
+                    <li><a href="/returnOne?id=<%=list.get(1).getId()%>"><%=list.get(list.size()-2).getCreatedTime()%></a>    <%=list.get(1).getTitles()%></li>
+                    <li><a href="/returnOne?id=<%=list.get(2).getId()%>"><%=list.get(list.size()-3).getCreatedTime()%></a>    <%=list.get(2).getTitles()%></li>
+                    <li><a href="/returnOne?id=<%=list.get(3).getId()%>"><%=list.get(list.size()-4).getCreatedTime()%></a>    <%=list.get(3).getTitles()%></li>
+                    <li><a href="/returnOne?id=<%=list.get(4).getId()%>"><%=list.get(list.size()-5).getCreatedTime()%></a>    <%=list.get(4).getTitles()%></li>
+                </ul>
             </div>
-<%--            <div class="top-sales box">--%>
-<%--                <div class="title">Top Seling Product</div>--%>
-<%--                <ul class="top-sales-details">--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/sunglasses.jpg" alt="">-->--%>
-<%--                            <span class="product">Vuitton Sunglasses</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$1107</span>--%>
-<%--                    </li>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/jeans.jpg" alt="">-->--%>
-<%--                            <span class="product">Hourglass Jeans </span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$1567</span>--%>
-<%--                    </li>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!-- <img src="images/nike.jpg" alt="">-->--%>
-<%--                            <span class="product">Nike Sport Shoe</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$1234</span>--%>
-<%--                    </li>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/scarves.jpg" alt="">-->--%>
-<%--                            <span class="product">Hermes Silk Scarves.</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$2312</span>--%>
-<%--                    </li>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/blueBag.jpg" alt="">-->--%>
-<%--                            <span class="product">Succi Ladies Bag</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$1456</span>--%>
-<%--                    </li>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/bag.jpg" alt="">-->--%>
-<%--                            <span class="product">Gucci Womens's Bags</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$2345</span>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/addidas.jpg" alt="">-->--%>
-<%--                            <span class="product">Addidas Running Shoe</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$2345</span>--%>
-<%--                    </li>--%>
-<%--                    <li>--%>
-<%--                        <a href="#">--%>
-<%--                            <!--<img src="images/shirt.jpg" alt="">-->--%>
-<%--                            <span class="product">Bilack Wear's Shirt</span>--%>
-<%--                        </a>--%>
-<%--                        <span class="price">$1245</span>--%>
-<%--                    </li>--%>
-<%--                </ul>--%>
-<%--            </div>--%>
+            <div class="recent-sales box">
+                <div class="title">Recently Registered Users</div>
+                                    <ul class="details">
+
+                                        <li><a href="viewUsers"><%=all.get(all.size()-1).getFullName()%></li>
+                                        <li><a href="viewUsers"><%=all.get(all.size()-2).getFullName()%></a></li>
+                                        <li><a href="viewUsers"><%=all.get(all.size()-3).getFullName()%></a></li>
+                                        <li><a href="viewUsers"><%=all.get(all.size()-4).getFullName()%></a></li>
+                                        <li><a href="viewUsers"><%=all.get(all.size()-5).getFullName()%></a></li>
+                                    </ul>
+            </div>
+
         </div>
+    </div>
     </div>
 </section>
 
-<!--<script>-->
-<!--    let sidebar = document.querySelector(".sidebar");-->
-<!--    let sidebarBtn = document.querySelector(".sidebarBtn");-->
-<!--    sidebarBtn.onclick = function() {-->
-<!--        sidebar.classList.toggle("active");-->
-<!--        if(sidebar.classList.contains("active")){-->
-<!--            sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");-->
-<!--        }else-->
-<!--            sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");-->
-<!--    }-->
-<!--</script>-->
 
 </body>
 </html>

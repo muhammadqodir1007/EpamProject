@@ -1,24 +1,34 @@
 package entity;
 
+
+import java.util.Date;
+
 public class PeopleBean {
 
-    private int id;
-    private String name,email,password;
+    int id;
+    String username, fullName, password, phoneNumber, email;
+    Date createdAt;
 
     public PeopleBean() {
     }
 
-    public PeopleBean(int id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+    public PeopleBean(String username, String fullName, String password, String phoneNumber, String email, Date createdAt) {
+        this.username = username;
+        this.fullName = fullName;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.createdAt = createdAt;
     }
 
-    public PeopleBean(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
+    public PeopleBean(int id, String username, String fullName, String password, String phoneNumber, String email, Date createdAt) {
+        this.id = id;
+        this.username = username;
+        this.fullName = fullName;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -29,12 +39,36 @@ public class PeopleBean {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -45,11 +79,19 @@ public class PeopleBean {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPassword(String password) {
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public PeopleBean(String username, String fullName, String password, String phoneNumber, String email) {
+        this.username = username;
+        this.fullName = fullName;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 }
