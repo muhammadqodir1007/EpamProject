@@ -8,17 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-    <title>Online news blog</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/image/favicon.ico"/>
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="assets/css/styles.css" rel="stylesheet"/>
-</head>
+<jsp:include page="../header/header2.jsp"></jsp:include>
 <body>
 <%--<jsp:include page="header/header.jsp"></jsp:include>--%>
 <jsp:include page="../header/header.jsp"></jsp:include>
@@ -30,15 +20,16 @@
             <!-- Nested row for non-featured blog posts-->
             <div class="row">
                 <c:forEach var="news" items="${productCategory}">
-
                     <div class="col-lg-6">
                         <!-- Blog post-->
-                        <div class="card mb-4">
-                            <a href="#!"><img class="card-img-top"
-                                              src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg"
-                                              alt="..."/></a>
+                         <div class="card mb-4">
+                            <a href="#!">
+                                <img class="card-img-top"
+                                     src="data:image/png;base64,${news.photofile}" width="500" height="250"
+                                     alt="..."/>
+                            </a>
                             <div class="card-body">
-                                <div class="small text-muted"><c:out value="${news.createdTime}"/></div>
+                                <div class="small text-muted"><c:out value="${news.created_at}"/></div>
                                 <h2 class="card-title h4"><c:out value="${news.titles}"/></h2>
                                 <p class="card-text"><c:out value="${news.description}"/></p>
                                 <a class="btn btn-primary" href="#!">Read more →</a>
@@ -63,45 +54,7 @@
             </nav>
         </div>
         <!-- Side widgets-->
-        <div class="col-lg-4">
-            <!-- Search widget-->
-            <div class="card mb-4">
-                <div class="card-header">Search</div>
-                <div class="card-body">
-                    <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Enter search term..."
-                               aria-label="Enter search term..." aria-describedby="button-search"/>
-                        <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Categories widget-->
-            <div class="card mb-4">
-                <div class="card-header">Categories</div>
-                <div class="card-body">
-                    <div class="row">
-                        <c:forEach var="categ" items="${categoryList}">
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li>
-                                        <a href="categoryNews?id=<c:out value='${categ.id}' />">
-                                            <c:out value="${categ.name}"/>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </div>
-            </div>
-            <!-- Side widget-->
-            <div class="card mb-4">
-                <div class="card-header">Side Widget</div>
-                <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use,
-                    and feature the Bootstrap 5 card component!
-                </div>
-            </div>
-        </div>
+        <jsp:include page="../extra/categorySearch.jsp"></jsp:include>
     </div>
 </div>
 <jsp:include page="../footer/footer.jsp"></jsp:include>
