@@ -1,13 +1,15 @@
 package service.product;
 
 import entity.Product;
+import payload.ProductResponse;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getAllProduct();
-    Product getOne(Long id);
-    boolean save(Product product);
-    boolean delete(Long id);
-    String updateProduct(Long id,Product product);
+    List<ProductResponse> getAllProduct();
+    Product getProductByID(long id);
+    List<Product> getProductByTitleandCategory(String sampletitle,int category_id);
+    List<Product> getProductByTitles(String sampletitle);
+    Product getOneProduct();
+    List<Product> showLastsixProduct();
 }

@@ -3,51 +3,48 @@ package entity;
 import java.util.Date;
 
 public class Users {
-
-
     private Long id;
     private String username;
     private String fullName;
     private String password;
     private String phoneNumber;
     private String email;
-    private Date createdTime;
+    private Date created_at;
+    private Date updated_at;
 
-    public Users() {
-    }
-
-    public Users(String username,
-                 String fullName,
-                 String password,
-                 String phoneNumber,
-                 String email,
-                 Date createdTime)
+    public Users(Long id, String username,
+                 String fullName, String password,
+                 String phoneNumber, String email,
+                 Date created_at,
+                 Date updated_at)
     {
-        super();
-        this.username = username;
-        this.fullName = fullName;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.createdTime = createdTime;
-    }
-
-    public Users(Long id,
-                 String username,
-                 String fullName,
-                 String password,
-                 String phoneNumber,
-                 String email,
-                 Date createdTime)
-    {
-        super();
         this.id = id;
         this.username = username;
         this.fullName = fullName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.createdTime = createdTime;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public Users(String username,
+                 String fullName,
+                 String password, String phoneNumber,
+                 String email, Date created_at,
+                 Date updated_at)
+    {
+        this.username = username;
+        this.fullName = fullName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public Users() {
+
     }
 
     public Long getId() {
@@ -98,26 +95,22 @@ public class Users {
         this.email = email;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", createdTime=" + createdTime +
-                '}';
+    public Date getUpdated_at() {
+        return updated_at;
     }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
