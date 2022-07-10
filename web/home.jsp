@@ -1,5 +1,5 @@
-<%@ page import="service.product.ProductServiceImpl" %>
-<%@ page import="entity.Product" %><%--
+
+<%--
   Created by IntelliJ IDEA.
   User: Temurbek
   Date: 6/13/2022
@@ -10,7 +10,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-
     <title>Online news blog</title>
     <jsp:include page="header/header2.jsp"></jsp:include>
 </head>
@@ -81,9 +80,12 @@
                     <li class="page-item"><a class="page-link" href="#!">Older</a></li>
                 </ul>
             </nav>
+
         </div>
         <!-- Side widgets-->
+
         <jsp:include page="extra/categorySearch.jsp"></jsp:include>
+<%--        <jsp:include page="publishers/publisher.jsp"></jsp:include>--%>
     </div>
 
 </div>

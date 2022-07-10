@@ -1,5 +1,6 @@
-<%@ page import="payload.UserDto" %>
-<%@ page import="entity.Users" %><%--
+<%@ page import="payload.CookieService" %>
+<%@ page import="entity.Users" %>
+<%--
   Created by IntelliJ IDEA.
   User: Temurbek
   Date: 6/12/2022
@@ -8,7 +9,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <style>
     #success_tic .page-body {
         max-width: 300px;
@@ -45,6 +45,13 @@
         height: 150px;
         border-radius: 50%;
         background: #1ab394;
+        position: absolute;
+    }
+    .checkmark-circle .background2 {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: #fc4e03;
         position: absolute;
     }
 
@@ -162,8 +169,11 @@
         }
     }
 
-
 </style>
+<%
+    CookieService service = new CookieService();
+    Users user = service.getCurrentUser(request);
+%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="<%=request.getContextPath()%>/">Bosh menu</a>
@@ -173,11 +183,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="aboutUs">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="modal" href="#exampleModal">
-                        Subscription  <c:out value='${currentSession.username}'/>
+                        Subscribtion
                     </a>
                 </li>
                 <li class="nav-item">
@@ -185,41 +195,43 @@
                         <img width="20"
                              src="https://icon-library.com/images/profile-photo-icon/profile-photo-icon-10.jpg" alt=""></a>
                 </li>
+                <c:if test="${userSession!=null}">
+                    <li class="nav-item" style="display: flex; align-items:center ;">
+                        <div class="dropdown p-0">
+                            <a class="nav-link dropdown-toggle p-0" href="#"
+                               role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"
+                               href="#">
+                                <%=user.getUsername()%>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="userSetting">Settings</a></li>
+                                <li><a class="dropdown-item" href="#">Massage</a></li>
+                                <li><a class="dropdown-item" href="logout">Logout</a></li>
+                            </ul>
+                        </div>
 
-<%--                <c:if test="${!currentSession==null}">--%>
-<%--                    <li class="nav-item"><a class="nav-link" href="#"><c:out value='${currentSession.username}'/></a>--%>
-<%--                    </li>--%>
-<%--                </c:if>--%>
-                <%--                <li class="nav-item" style="display: flex; align-items:center ;">--%>
-                <%--                    <div class="dropdown p-0">--%>
-                <%--                        <a style="color: white; text-decoration:none ;" class="  dropdown-toggle p-0" href="#"--%>
-                <%--                           role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">--%>
-                <%--                            <img width="20" src="https://thenounproject.com/icon/user-profile-363641/" alt="">--%>
-                <%--                        </a>--%>
 
-                <%--                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">--%>
-                <%--                            <li><a class="dropdown-item" href="#">Settings</a></li>--%>
-                <%--                            <li><a class="dropdown-item" href="#">Activity Log</a></li>--%>
-                <%--                            <li><a class="dropdown-item" href="#">Logout</a></li>--%>
-                <%--                        </ul>--%>
-                <%--                    </div>--%>
-                <%--                </li>--%>
-                <%--                <c:if test="${!currentSession==null}">--%>
-                <%--                    <li class="nav-item"><a class="nav-link" href="#"><c:out value='${currentSession.username}'/></a>--%>
-                <%--                    </li>--%>
-                <%--                </c:if>--%>
+                    </li>
+                </c:if>
+
             </ul>
         </div>
     </div>
 </nav>
+<c:if test="${falseUser==false}">
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Wrong user Brug!</strong> You should sign up right here.
+    <a href="/register/registration.jsp">Signup</a>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    </button>
+</div>
+</c:if>
 <!-- Page header with logo and tagline-->
 <header class="py-5 bg-light border-bottom mb-4">
     <div class="container my-5">
         <div class="text-center my-5">
             <h1 class="fw-bolder">Welcome to our news world</h1>
             <p class="lead mb-0">Enjoy the life</p>
-
-
         </div>
     </div>
 </header>
@@ -227,6 +239,23 @@
 <div class="modal fade" id="ModalForm" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <%
+                Cookie[] cookies = request.getCookies();
+                String userName = "", password = "", rememberVal = "";
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("cocUser")) {
+                            userName = cookie.getValue();
+                        }
+                        if (cookie.getName().equals("cocPas")) {
+                            password = cookie.getValue();
+                        }
+                        if (cookie.getName().equals("cocRem")) {
+                            rememberVal = cookie.getValue();
+                        }
+                    }
+                }
+            %>
             <!-- Login Form -->
             <form action="login" method="post">
                 <div class="modal-header">
@@ -235,26 +264,34 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="Username">Username<span class="text-danger">*</span></label>
-                        <input type="text" name="logusername" class="form-control" id="Username"
+                        <label>Username<span class="text-danger">*</span></label>
+                        <input type="text" name="logusername" value="<%=userName%>"
+                               class="form-control"
+                               autocomplete="off"
                                placeholder="Enter Username">
                     </div>
 
                     <div class="mb-3">
-                        <label for="Password">Password<span class="text-danger">*</span></label>
-                        <input type="password" name="logpassword" class="form-control" id="Password"
+                        <label>Password<span class="text-danger">*</span></label>
+                        <input type="password" name="logpassword" value="<%=password%>"
+                               class="form-control"
+                               autocomplete="off"
                                placeholder="Enter Password">
                     </div>
                     <div class="mb-3">
-                        <input class="form-check-input" type="checkbox" value="" id="remember" required>
-                        <label class="form-check-label" for="remember">Remember Me</label>
+                        <input class="form-check-input" name="remember" type="checkbox" value="1"
+                            <%= "1".equals(rememberVal.trim()) ? "checked=\"checked\"" : "" %>
+                               required>
+                        <label class="form-check-label">Remember Me</label>
+
                         <a href="#" class="float-end">Forgot Password</a>
                     </div>
+                    <div class="modal-footer pt-4">
+                        <button type="submit" class="btn btn-success mx-auto w-100">Login</button>
+                    </div>
                 </div>
-                <div class="modal-footer pt-4">
-                    <button type="submit" class="btn btn-success mx-auto w-100">Login</button>
-                </div>
-                <p class="text-center">Not yet account, <a href="/register/registration.jsp">Signup</a></p>
+
+                <p class="text-center">Not yet account, <a href="showRegister">Signup</a></p>
             </form>
         </div>
     </div>
@@ -298,6 +335,18 @@
         }
     }
 </script>
+<script type="text/javascript">
+    var b =<c:out value='${hasError}'/>;
+    if (b = true) {
+        window.onload = function () {
+            OpenBootstrapPopup();
+        };
+
+        function OpenBootstrapPopup() {
+            $("#success_tic").modal('show');
+        }
+    }
+</script>
 
 
 <%--success modal--%>
@@ -323,38 +372,4 @@
         </div>
     </div>
 
-</div>
-<%--
-Error user
---%>
-<%--<c:if test="${currentSession==null}">--%>
-<%--    <script>--%>
-<%--        var m =<c:out value='${result}'/>;--%>
-<%--        if (m = false) {--%>
-<%--            $(document).ready(function () {--%>
-<%--                $("#myloginModal").modal('show');--%>
-<%--            });--%>
-<%--        }--%>
-<%--    </script>--%>
-<%--</c:if>--%>
-
-<div class="m-4">
-    <div id="myloginModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Do you want to save changes to this document before closing?</p>
-                    <p class="text-secondary"><small>If you don't save, your changes will be lost.</small></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
