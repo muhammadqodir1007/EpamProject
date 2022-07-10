@@ -24,7 +24,9 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css"
         rel="stylesheet"
 />
-
+<head>
+    <title>Registration page</title>
+</head>
 <style>
     .gradient-custom {
         background: #fafafa;
@@ -130,95 +132,36 @@
     }
 </style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="<%=request.getContextPath()%>/">Bosh menu</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-                class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Subscribtion</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#">
-                    <img data-toggle="modal" data-target="#loginModal" width="20"
-                         src="https://img.icons8.com/fluency-systems-regular/48/undefined/user.png" alt="">
-                </a>
-                </li>
+<jsp:include page="../header/header.jsp"></jsp:include>
 
-                <li class="nav-item"><a class="nav-link" href="#">sfds
-                </a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header border-bottom-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-title text-center">
-                    <h4>Login</h4>
-                </div>
-                <div class="d-flex flex-column text-center">
-                    <form action="login" method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="username" placeholder="Username...">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="password" placeholder="Your password...">
-                        </div>
-                        <button type="submit" class="btn btn-info btn-block btn-round">Login</button>
-                    </form>
-
-                    <div class="text-center text-muted delimiter">or use a social network</div>
-                    <div class="d-flex justify-content-center social-buttons">
-                        <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip"
-                                data-placement="top" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip"
-                                data-placement="top" title="Facebook">
-                            <i class="fab fa-facebook"></i>
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip"
-                                data-placement="top" title="Linkedin">
-                            <i class="fab fa-linkedin"></i>
-                        </button>
-                        </di>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <div class="signup-section">Not a member yet?
-                    <a href="registration" class="text-info"> Sign Up</a>.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <section class="vh-100 gradient-custom">
+    <c:if test="${msg==false}">
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                <use xlink:href="#exclamation-triangle-fill"/>
+            </svg>
+            <div>
+               You have an account bru
+            </div>
+        </div>
+    </c:if>
+
     <div class="container py-5 h-100">
         <div class="row justify-content-center align-items-center h-100">
             <div class="col-12 col-lg-9 col-xl-7">
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
-                        <form action="<%=request.getContextPath()%>/registration" method="post">
+                        <form action="registration" method="post">
 
                             <div class="row">
                                 <div class="col-md-6 mb-4">
 
                                     <div class="form-outline">
-                                        <input type="text" name="username" class="form-control form-control-lg"/>
-                                        <label class="form-label">Your name </label>
+                                        <input type="text" name="username" required
+                                               class="form-control form-control-lg"/>
+                                        <label class="form-label">Your name<span
+                                                class="text-danger">*</span></label> </label>
 
                                     </div>
 
@@ -226,8 +169,10 @@
                                 <div class="col-md-6 mb-4">
 
                                     <div class="form-outline">
-                                        <input type="text" name="fullName" class="form-control form-control-lg"/>
-                                        <label class="form-label">Full name</label>
+                                        <input type="text" name="fullName" required
+                                               class="form-control form-control-lg"/>
+                                        <label class="form-label">Full name<span
+                                                class="text-danger">*</span></label></label>
                                     </div>
 
                                 </div>
@@ -237,16 +182,19 @@
                                 <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                     <div class="form-outline datepicker w-100">
-                                        <input type="password" name="password" class="form-control form-control-lg">
-                                        <label class="form-label">Password</label>
+                                        <input type="password" required name="password"
+                                               class="form-control form-control-lg">
+                                        <label class="form-label">Password<span
+                                                class="text-danger">*</span></label></label>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="email" name="email" class="form-control form-control-lg"/>
-                                        <label class="form-label">Email</label>
+                                        <input type="email" required name="email" class="form-control form-control-lg"/>
+                                        <label class="form-label">Email<span
+                                                class="text-danger">*</span></label></label>
                                     </div>
 
                                 </div>
@@ -257,7 +205,8 @@
                                 <div class="col-md-12 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="tel" name="phoneNumber" class="form-control form-control-lg"/>
+                                        <input type="tel" required name="phoneNumber"
+                                               class="form-control form-control-lg"/>
                                         <label class="form-label">Phone Number</label>
                                     </div>
 
@@ -273,6 +222,68 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    var b =<c:out value='${result}'/>;
+    if (b = true) {
+        window.onload = function () {
+            OpenBootstrapPopup();
+        };
+
+        function OpenBootstrapPopup() {
+            $("#success_").modal('show');
+        }
+    }
+    if (b = false) {
+        window.onload = function () {
+            OpenBootstrapPopup();
+        };
+
+        function OpenBootstrapPopup() {
+            $("#wrong_tic").modal('show');
+        }
+    }
+</script>
+<%--Wrong massage--%>
+<div id="wrong_tic" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="btn-close" aria-hidden="true" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            <div class="page-body">
+                <div class="head">
+                    <h4>Something wrong check please</h4>
+                </div>
+
+                <h1 style="text-align:center;">
+                    <div class="checkmark-circle">
+                        <div class="background2"></div>
+                        <div class="checkmark draw"></div>
+                    </div>
+                </h1>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<%--success modal--%>
+<div id="success_" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="btn-close" aria-hidden="true" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            <div class="page-body">
+                <div class="head">
+                    <h4>User has been saved correctly</h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"></script>
