@@ -86,23 +86,23 @@
             padding: 15px 20px 20px 20px;
         }
 
-        .form-group.fl_icon .icon {
-            position: absolute;
-            top: 1px;
-            left: 16px;
-            width: 48px;
-            height: 48px;
-            background: #f6f6f7;
-            color: #b5b8c2;
-            text-align: center;
-            line-height: 50px;
-            -webkit-border-top-left-radius: 2px;
-            -webkit-border-bottom-left-radius: 2px;
-            -moz-border-radius-topleft: 2px;
-            -moz-border-radius-bottomleft: 2px;
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
-        }
+        /*.form-group.fl_icon .icon {*/
+        /*    position: absolute;*/
+        /*    top: 1px;*/
+        /*    left: 16px;*/
+        /*    width: 48px;*/
+        /*    height: 48px;*/
+        /*    background: #f6f6f7;*/
+        /*    color: #b5b8c2;*/
+        /*    text-align: center;*/
+        /*    line-height: 50px;*/
+        /*    -webkit-border-top-left-radius: 2px;*/
+        /*    -webkit-border-bottom-left-radius: 2px;*/
+        /*    -moz-border-radius-topleft: 2px;*/
+        /*    -moz-border-radius-bottomleft: 2px;*/
+        /*    border-top-left-radius: 2px;*/
+        /*    border-bottom-left-radius: 2px;*/
+        /*}*/
 
         .form-group .form-input {
             font-size: 13px;
@@ -140,8 +140,21 @@
                          alt="..."/>
                 </a>
                 <div class="card-body">
-                    <div class="small text-muted"><c:out value="${currentProduct.created_at}"/>
+
+                    <div  style="display: flex; justify-content: space-between">
+                        <div>
+                            <div class="small text-muted"><c:out value="${currentProduct.created_at}"/>
+                        </div>
+                        <div class="small text-muted">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                            </svg>
+                        </div>
                     </div>
+
+                    </div>
+
                     <h2 class="card-title "><c:out value="${currentProduct.titles}"/>
                     </h2>
                     <p class="card-text fw-bold"><c:out value="${currentProduct.description}"/>
@@ -245,7 +258,82 @@
 
             <!-- From -->
         </div>
-        <jsp:include page="../extra/categorySearch.jsp"></jsp:include>
+        <div class="col-lg-4">
+            <!-- Search widget-->
+            <form action="searchNews" method="post">
+                <div class="card mb-4">
+                    <div class="card-header">Search</div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <div class="input-group-text p-0">
+                                <select name="category_id" class="form-select  shadow-none bg-light border-0">
+                                    <option selected>Categories</option>
+                                    <c:forEach var="categ" items="${categoryList}">
+                                        <option value="<c:out value='${categ.id}' />"><c:out value="${categ.name}"/></option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <input class="form-control"
+                                   type="text" name="searchedProduct" placeholder="Enter search term..."
+                                   aria-label="Enter search term..." aria-describedby="button-search"/>
+                            <button type="submit" class="btn btn-success">Go!</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Categories widget-->
+            <div class="card mb-4">
+                <div class="card-header">Categories</div>
+                <div class="card-body">
+                    <div class="row">
+                        <c:forEach var="categ" items="${categoryList}">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        <a style="color:black;text-decoration: none"
+                                           href="categoryNews?id=<c:out value='${categ.id}' />">
+                                            <c:out value="${categ.name}"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+            <!-- Side widget-->
+            <div class="card mb-4">
+                <div class="card-header">Recent post</div>
+                <div class="card-body">
+                    <ul>
+                        <c:forEach var="recentPost" items="${lastPosts}">
+                            <a href="singleData?id=<c:out value='${recentPost.id}' />">
+                                <li><c:out value="${recentPost.titles}"/></li>
+                            </a>
+                        </c:forEach>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="https://thumbs.dreamstime.com/b/writer-agency-publishing-company-vector-logo-design-black-feather-pen-icon-writer-agency-publishing-company-logo-231443324.jpg" alt="avatar"
+                         class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3"><c:out value="${currentPublisher.nameOf}"/></h5>
+                    <p class="text-muted mb-1"><c:out value="${currentPublisher.email}"/></p>
+                    <p class="text-muted mb-4"><c:out value="${currentPublisher.address}"/></p>
+
+                    <div class="d-flex justify-content-center mb-2">
+                        <a href="displayPublisher?id=<c:out value='${currentPublisher.id}' />" type="button"
+                           class="btn btn-primary">View publisher</a>
+                        <button type="button" class="btn btn-outline-primary ms-1">Complain</button>
+                    </div>
+                </div>
+            </div>
+<%--            <a href="singleData?id=<c:out value='${news.id}' />"--%>
+<%--               class="btn btn-primary">Read more →</a>--%>
+        </div>
     </div>
 </div>
 <jsp:include page="../footer/footer.jsp"></jsp:include>
