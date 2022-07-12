@@ -8,6 +8,7 @@ import payload.ProductResponse;
 import service.category.CategoryService;
 import service.product.ProductService;
 import service.product.ProductServiceImpl;
+import service.publisher.PublisherServices;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,10 +29,12 @@ public class ProductController extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
     private ProductService productService;
+    private PublisherServices publisherServices;
 
     public void init()
     {
         productService = new ProductServiceImpl();
+        publisherServices = new PublisherServices();
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,7 +73,7 @@ public class ProductController extends HttpServlet
             throws SQLException, IOException, ServletException
     {
         int id = Integer.parseInt(request.getParameter("id"));
-        Publisher publisher=productService.getPublisherById(id);
+        Publisher publisher= publisherServices.getPublisherById(id);
         request.setAttribute("publisherAtribute",publisher);
         RequestDispatcher dispatcher = request.getRequestDispatcher("publishers/pubProfile.jsp");
         dispatcher.forward(request, response);
@@ -96,7 +99,7 @@ public class ProductController extends HttpServlet
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = productService.getProductByID(id);
         request.setAttribute("currentProduct", product);
-        Publisher publisher= productService.getPublisherByProductId(id);
+        Publisher publisher= publisherServices.getPublisherByProductId(id);
         request.setAttribute("currentPublisher",publisher);
         commonItems(request, response);
         RequestDispatcher dispatcher = request.getRequestDispatcher("list-to-do/singlePage.jsp");
