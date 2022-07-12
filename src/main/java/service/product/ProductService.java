@@ -13,6 +13,5 @@ public interface ProductService {
     List<Product> getProductByTitles(String sampletitle);
     Product getOneProduct();
     List<Product> showLastsixProduct();
-    Publisher getPublisherByProductId(long id);
-    Publisher getPublisherById(long id);
+
 }
