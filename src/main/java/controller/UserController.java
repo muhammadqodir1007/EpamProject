@@ -160,7 +160,7 @@ public class UserController extends HttpServlet {
 
             } else {
                 int result = userService.saveUser(users);
-                if (result == 2) {
+                if (result == 1) {
                     request.setAttribute("result", true);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/showRegister");
                     dispatcher.forward(request, response);
