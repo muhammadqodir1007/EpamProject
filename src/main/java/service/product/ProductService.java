@@ -1,6 +1,7 @@
 package service.product;
 
 import entity.Product;
+import entity.Publisher;
 import payload.ProductResponse;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface ProductService {
     List<Product> getProductByTitles(String sampletitle);
     Product getOneProduct();
     List<Product> showLastsixProduct();
+    Publisher getPublisherByProductId(long id);
+    Publisher getPublisherById(long id);
 }

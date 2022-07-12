@@ -3,6 +3,7 @@ package controller;
 import entity.Category;
 import entity.Product;
 
+import entity.Publisher;
 import payload.ProductResponse;
 import service.category.CategoryService;
 import service.product.ProductService;
@@ -20,7 +21,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/", "/categoryNews", "/singleData"})
+@WebServlet(urlPatterns = {"/", "/categoryNews","/aboutUs",
+        "/displayPublisher","/singleData"})
 @MultipartConfig(maxFileSize = 16177215)
 public class ProductController extends HttpServlet
 {
@@ -50,6 +52,12 @@ public class ProductController extends HttpServlet
                 case "/searchNews":
                     getFilteredNews(request, response);
                     break;
+                case "/aboutUs":
+                    getAbout(request, response);
+                    break;
+                case "/displayPublisher":
+                    showPublisher(request, response);
+                    break;
                 default:
                     newsList(request, response);
                     break;
@@ -58,7 +66,15 @@ public class ProductController extends HttpServlet
             throw new ServletException(ex);
         }
     }
-
+    protected void showPublisher(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException
+    {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Publisher publisher=productService.getPublisherById(id);
+        request.setAttribute("publisherAtribute",publisher);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("publishers/pubProfile.jsp");
+        dispatcher.forward(request, response);
+    }
     protected void newsList(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         List<ProductResponse> productList = productService.getAllProduct();
@@ -69,12 +85,19 @@ public class ProductController extends HttpServlet
         RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
         dispatcher.forward(request, response);
     }
+    protected void getAbout(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("about/aboutUs.jsp");
+        dispatcher.forward(request, response);
+    }
 
     public void getOnlyOneData(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = productService.getProductByID(id);
         request.setAttribute("currentProduct", product);
+        Publisher publisher= productService.getPublisherByProductId(id);
+        request.setAttribute("currentPublisher",publisher);
         commonItems(request, response);
         RequestDispatcher dispatcher = request.getRequestDispatcher("list-to-do/singlePage.jsp");
         dispatcher.forward(request, response);

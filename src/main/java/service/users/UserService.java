@@ -4,6 +4,7 @@ import database.DB;
 import entity.Product;
 import entity.Users;
 import org.apache.catalina.User;
+import org.apache.commons.codec.digest.DigestUtils;
 import payload.ProductResponse;
 import payload.UserDto;
 
@@ -12,9 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserService {
     private static final String GET_AUTHENTICATE = "SELECT id, username, \"fullName\", password, \"phoneNumber\", email, created_at, updated_at\n" +
@@ -22,6 +23,8 @@ public class UserService {
     private static final String SAVE_USERS = "INSERT INTO public.users(\n" +
             "\tusername, \"fullName\", password, \"phoneNumber\", email)\n" +
             "\tVALUES (?, ?, ?, ?,?);";
+    private static final String GET_ALL_USERS = "SELECT id, username, \"fullName\", password, \"phoneNumber\", email, created_at, updated_at\n" +
+            "\tFROM public.users";
 
     public ResultSet getresultSet(String query) throws SQLException {
         Connection connection = DB.getConnection();
@@ -29,11 +32,13 @@ public class UserService {
         ResultSet rs = preparedStatement.executeQuery();
         return rs;
     }
+
     public PreparedStatement getstatement(String query) throws SQLException {
         Connection connection = DB.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         return preparedStatement;
     }
+
     public Users getUser(ResultSet resultSet) throws SQLException {
         Users users = null;
         Long id = resultSet.getLong("id");
@@ -49,6 +54,26 @@ public class UserService {
         return users;
     }
 
+    public Users getUserDetails(UserDto userDto) {
+        Users users = new Users();
+        try (PreparedStatement preparedStatement = getstatement("SELECT id, username, \"fullName\", password, \"phoneNumber\", email, created_at, updated_at\n" +
+                "\tFROM public.users" +
+                " where username='" + userDto.getUsername() + "' and " +
+                "password='" + userDto.getPassword() + "'");
+             ResultSet set = preparedStatement.executeQuery();) {
+            while (set.next()) {
+                users.setUsername(set.getString("username"));
+                users.setFullName(set.getString("fullname"));
+                users.setPhoneNumber(set.getString("phoneNumber"));
+                users.setEmail(set.getString("email"));
+                users.setActive(true);
+                users.setPassword(set.getString("password"));
+            }
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+        return users;
+    }
     public boolean validate(UserDto userDto) {
         boolean status = false;
         try (Connection connection = DB.getConnection();
@@ -85,8 +110,34 @@ public class UserService {
         }
         return result;
     }
-
-
+    public List<Users> getAllUser() {
+        List<Users> usersList = new ArrayList<>();
+        try {
+            ResultSet rs = getresultSet(GET_ALL_USERS);
+            while (rs.next()) {
+                usersList.add(getUser(rs));
+            }
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+        return usersList;
+    }
+    public boolean isUserExist(Users users) {
+      boolean status=false;
+        List<Users> usersList = getAllUser();
+        Set<Users> users1 = usersList.stream().collect(Collectors.toSet());
+        Predicate<Users> predicate = (s) -> s.equals(users);
+        for (Users users2 : users1)
+        {
+            if (predicate.test(users2)) {
+                status=true;
+            }
+            else {
+                continue;
+            }
+        }
+        return status;
+    }
 
 
 }

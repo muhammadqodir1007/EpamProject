@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Users {
     private Long id;
@@ -9,8 +10,11 @@ public class Users {
     private String password;
     private String phoneNumber;
     private String email;
+    private boolean isActive;
+    private boolean isDeleted;
     private Date created_at;
     private Date updated_at;
+
 
     public Users(Long id, String username,
                  String fullName, String password,
@@ -111,25 +115,45 @@ public class Users {
         this.updated_at = updated_at;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", isActive=" + isActive +
+                ", isDeleted=" + isDeleted +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Users)) return false;
+        Users users = (Users) o;
+        return username.equals(users.username)
+                && fullName.equals(users.fullName)
+                && password.equals(users.password) &&
+                phoneNumber.equals(users.phoneNumber) &&
+                email.equals(users.email);
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        return result;
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Users other = (Users) obj;
-        if (id != other.id)
-            return false;
-        return true;
+        return Objects.hash(username, fullName, password, phoneNumber, email);
     }
 }
 

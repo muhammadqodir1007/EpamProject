@@ -2,6 +2,7 @@ package service.product;
 
 import database.DB;
 import entity.Product;
+import entity.Publisher;
 import org.apache.tomcat.util.codec.binary.Base64;
 import payload.ProductResponse;
 
@@ -28,6 +29,12 @@ public class ProductServiceImpl implements ProductService {
     private static final String GET_PRODUCTS_BY_TITLE = "SELECT id, titles, textdata, description, \"sourcelinkto\", photofile, created_at, updated_at, category_id\n" +
             "\tFROM public.product where titles like '%?%'";
     private static final String LAST_PRODUCTS = "SELECT id, titles FROM public.product order by created_at desc limit 6 ";
+    private static final String GET_PUBLISHER_BY_PRODUCT_ID = "SELECT publisher.id, " +
+            "nameof, address, publisher.description, phonenumber, email, password\n" +
+            "\tFROM public.publisher inner join product on" +
+            " product.publisher_id=publisher.id where product.id=?";
+    private static final String GET_PUBLISHER_BY_ID="SELECT id, nameof, address, description, phonenumber, email, password, created_at, updated_at\n" +
+            "\tFROM public.publisher where id=?";
 
 
     public ResultSet getresultSet(String query) throws SQLException {
@@ -50,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
         String description = resultSet.getString("description");
         String sourcelinkTo = resultSet.getString("sourcelinkto");
         String photofile = new String(Base64.encodeBase64(resultSet.getBytes("photofile")), "UTF-8");
-        Date created_at = resultSet.getDate("created_at");
+        Date created_at = resultSet.getTimestamp("created_at");
         Date updated_at = resultSet.getDate("updated_at");
         product = new Product(id, titles, description, sourcelinkTo, photofile, created_at, updated_at);
         return product;
@@ -82,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
                 String sourcelinkTo = rs.getString("sourcelinkto");
                 String photofile = new String(Base64.encodeBase64(rs.getBytes("photofile")), "UTF-8");
                 String name = rs.getString("name");
-                Date created_at = rs.getDate("created_at");
+                Date created_at = rs.getTimestamp("created_at");
                 productResponses.add(new ProductResponse(id, titles, description,
                         sourcelinkTo, photofile, name, created_at));
             }
@@ -168,5 +175,46 @@ public class ProductServiceImpl implements ProductService {
             DB.printSQLException(exception);
         }
         return productList;
+    }
+
+    @Override
+    public Publisher getPublisherByProductId(long num)
+    {
+        Publisher publishers=new Publisher();
+        try (PreparedStatement preparedStatement = getstatement(GET_PUBLISHER_BY_PRODUCT_ID)) {
+            preparedStatement.setLong(1, num);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                publishers.setId(resultSet.getLong("id"));
+                publishers.setNameOf(resultSet.getString("nameOf"));
+                publishers.setAddress(resultSet.getString("address"));
+                publishers.setPhoneNumber(resultSet.getString("phoneNumber"));
+                publishers.setEmail(resultSet.getString("email"));
+                publishers.setPassword(resultSet.getString("password"));
+            }
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+        return publishers;
+
+    }
+
+    @Override
+    public Publisher getPublisherById(long id) {
+        Publisher publishersPublisher=new Publisher();
+        try (PreparedStatement preparedStatement = getstatement(GET_PUBLISHER_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                publishersPublisher.setNameOf(resultSet.getString("nameOf"));
+                publishersPublisher.setAddress(resultSet.getString("address"));
+                publishersPublisher.setPhoneNumber(resultSet.getString("phoneNumber"));
+                publishersPublisher.setEmail(resultSet.getString("email"));
+                publishersPublisher.setPassword(resultSet.getString("password"));
+            }
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+        return publishersPublisher;
     }
 }
