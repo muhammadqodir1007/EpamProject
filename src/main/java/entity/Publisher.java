@@ -51,6 +51,10 @@ public class Publisher {
         this.updated_At = updated_At;
     }
 
+    public Publisher() {
+
+    }
+
     public long getId() {
         return id;
     }
