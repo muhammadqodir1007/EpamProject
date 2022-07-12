@@ -10,36 +10,40 @@ public class Publisher {
     private String phoneNumber;
     private String email;
     private String password;
+    private String description;
     private Date created_At;
     private Date updated_At;
 
-    public Publisher(String nameOf, String address,
+    public Publisher(String nameOf,
+                     String address,
                      String phoneNumber,
-                     String email, String password) {
+                     String email,
+                     String password,
+                     String description) {
         this.nameOf = nameOf;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.description = description;
     }
 
     public Publisher(long id, String nameOf,
                      String address, String phoneNumber,
-                     String email, String password) {
+                     String email, String password, String description) {
         this.id = id;
         this.nameOf = nameOf;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.description = description;
     }
 
-    public Publisher(long id, String nameOf,
-                     String address,
+    public Publisher(long id, String nameOf, String address,
                      String phoneNumber,
-                     String email,
-                     String password,
-                     Date created_At,
+                     String email, String password,
+                     String description, Date created_At,
                      Date updated_At) {
         this.id = id;
         this.nameOf = nameOf;
@@ -47,6 +51,7 @@ public class Publisher {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.description = description;
         this.created_At = created_At;
         this.updated_At = updated_At;
     }
@@ -119,6 +124,14 @@ public class Publisher {
         this.updated_At = updated_At;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Publisher{" +
@@ -128,6 +141,7 @@ public class Publisher {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", description='" + description + '\'' +
                 ", created_At=" + created_At +
                 ", updated_At=" + updated_At +
                 '}';
@@ -138,11 +152,16 @@ public class Publisher {
         if (this == o) return true;
         if (!(o instanceof Publisher)) return false;
         Publisher publisher = (Publisher) o;
-        return id == publisher.id && nameOf.equals(publisher.nameOf) && address.equals(publisher.address) && phoneNumber.equals(publisher.phoneNumber) && email.equals(publisher.email) && password.equals(publisher.password);
+        return nameOf.equals(publisher.nameOf) &&
+                address.equals(publisher.address) &&
+                phoneNumber.equals(publisher.phoneNumber) &&
+                email.equals(publisher.email) &&
+                password.equals(publisher.password) &&
+                description.equals(publisher.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameOf, address, phoneNumber, email, password);
+        return Objects.hash(nameOf, address, phoneNumber, email, password, description);
     }
 }
