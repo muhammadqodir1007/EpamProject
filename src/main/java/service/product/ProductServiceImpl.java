@@ -177,44 +177,4 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
-    @Override
-    public Publisher getPublisherByProductId(long num)
-    {
-        Publisher publishers=new Publisher();
-        try (PreparedStatement preparedStatement = getstatement(GET_PUBLISHER_BY_PRODUCT_ID)) {
-            preparedStatement.setLong(1, num);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                publishers.setId(resultSet.getLong("id"));
-                publishers.setNameOf(resultSet.getString("nameOf"));
-                publishers.setAddress(resultSet.getString("address"));
-                publishers.setPhoneNumber(resultSet.getString("phoneNumber"));
-                publishers.setEmail(resultSet.getString("email"));
-                publishers.setPassword(resultSet.getString("password"));
-            }
-        } catch (SQLException exception) {
-            DB.printSQLException(exception);
-        }
-        return publishers;
-
-    }
-
-    @Override
-    public Publisher getPublisherById(long id) {
-        Publisher publishersPublisher=new Publisher();
-        try (PreparedStatement preparedStatement = getstatement(GET_PUBLISHER_BY_ID)) {
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                publishersPublisher.setNameOf(resultSet.getString("nameOf"));
-                publishersPublisher.setAddress(resultSet.getString("address"));
-                publishersPublisher.setPhoneNumber(resultSet.getString("phoneNumber"));
-                publishersPublisher.setEmail(resultSet.getString("email"));
-                publishersPublisher.setPassword(resultSet.getString("password"));
-            }
-        } catch (SQLException exception) {
-            DB.printSQLException(exception);
-        }
-        return publishersPublisher;
-    }
 }
