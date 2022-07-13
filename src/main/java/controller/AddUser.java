@@ -11,10 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/addUser")
+
 public class AddUser extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("addUser.html");
+        if (req.getSession().getAttribute("username")==null){
+            resp.sendRedirect("login.jsp");
+        }else
+        {
+            resp.sendRedirect("addUser.html");
+        }
+
     }
 
 
@@ -32,11 +40,11 @@ public class AddUser extends HttpServlet {
         System.out.println(password);
 
         PeopleBean bean = new PeopleBean(username,fullName,password,phoneNumber,email);
-//        bean.setEmail(email);
-//        bean.setPassword(password);
-//        bean.setUsername(username);
-//        bean.setPhoneNumber(phoneNumber);
-//        bean.setFullName(fullName);
+        bean.setEmail(email);
+        bean.setPassword(password);
+        bean.setUsername(username);
+        bean.setPhoneNumber(phoneNumber);
+        bean.setFullName(fullName);
 
         PeopleService peopleService = new PeopleService();
         int i = peopleService.addUser(bean);

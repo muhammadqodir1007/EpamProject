@@ -1,26 +1,59 @@
 package entity;
 
-import java.io.InputStream;
 import java.sql.Date;
 
 public class ProductBean {
 
 
-    int id, categoryId;
+   private int id, category_Id;
 
-    byte[] photoFile;
-    String titles, description, sourceLinkTo, text;
-    Date createdTime;
+   private byte[] photoFile;
+ private    String titles, description, sourceLinkTo, text;
+ private    Date created_at ;
+    private Date updated_at;
+    private int category_id;
 
-    public ProductBean(int id, int categoryId, byte[] photoFile, String titles, String description, String sourceLinkTo, String text, Date createdTime) {
+
+
+    public Date getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
+    }
+
+
+
+
+
+    public ProductBean(int id, int categoryId, byte[] photoFile, String titles, String description, String sourceLinkTo, String text, Date created_at, Date updated_at, int category_id) {
         this.id = id;
-        this.categoryId = categoryId;
+        this.category_Id = categoryId;
         this.photoFile = photoFile;
         this.titles = titles;
         this.description = description;
         this.sourceLinkTo = sourceLinkTo;
         this.text = text;
-        this.createdTime = createdTime;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.category_id = category_id;
+    }
+
+    public ProductBean(int id, int categoryId, byte[] photoFile, String titles, String description, String sourceLinkTo, String text, Date createdTime) {
+        this.id = id;
+        this.category_Id = categoryId;
+        this.photoFile = photoFile;
+        this.titles = titles;
+        this.description = description;
+        this.sourceLinkTo = sourceLinkTo;
+        this.text = text;
+        this.created_at = createdTime;
+    }
+
+    public ProductBean(Long id, String titles, String description, String sourcelinkTo, byte[] photofile, java.util.Date created_at, java.util.Date updated_at) {
+
+
     }
 
     public int getId() {
@@ -31,12 +64,12 @@ public class ProductBean {
         this.id = id;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public int getCategory_Id() {
+        return category_Id;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory_Id(int category_Id) {
+        this.category_Id = category_Id;
     }
 
     public byte[] getPhotoFile() {
@@ -80,23 +113,23 @@ public class ProductBean {
     }
 
     public Date getCreatedTime() {
-        return createdTime;
+        return created_at;
     }
 
     public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+        this.created_at = createdTime;
     }
 
     public ProductBean() {
     }
 
     public ProductBean(int categoryId, byte[] photoFile, String titles, String description, String sourceLinkTo, String text, Date createdTime) {
-        this.categoryId = categoryId;
+        this.category_Id = categoryId;
         this.photoFile = photoFile;
         this.titles = titles;
         this.description = description;
         this.sourceLinkTo = sourceLinkTo;
         this.text = text;
-        this.createdTime = createdTime;
+        this.created_at = createdTime;
     }
 }

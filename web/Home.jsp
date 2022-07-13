@@ -29,6 +29,11 @@
 
 <%
 
+
+    if (session.getAttribute("username")==null){
+        response.sendRedirect("login.jsp");
+    }
+
     Connection connection = DB.getConnection();
     Statement statement = connection.createStatement();
     ResultSet resultSet = statement.executeQuery("select count(*) from public.\"product\"");
@@ -47,7 +52,7 @@
     connection.close();
     Connection connection1 = DB.getConnection();
     Statement statement2 = connection1.createStatement();
-    ResultSet rs = statement2.executeQuery("select * from public.\"product\" order by \"createdTime\" desc limit 10");
+    ResultSet rs = statement2.executeQuery("select * from public.\"product\" order by \"created_at\" desc limit 10");
     List<ProductBean> list = new ArrayList<>();
 
 
@@ -58,16 +63,32 @@
         productBean.setDescription(rs.getString(3));
         productBean.setSourceLinkTo(rs.getString(4));
         productBean.setCreatedTime(rs.getDate(5));
-        productBean.setCategoryId(rs.getInt(6));
+        productBean.setCategory_Id(rs.getInt(6));
         productBean.setPhotoFile(rs.getBytes(7));
         productBean.setText(rs.getString(8));
+        productBean.setUpdated_at(rs.getDate(9));
         list.add(productBean);
 
     }
 
-    PeopleService peopleService=new PeopleService();
+    PeopleService peopleService = new PeopleService();
     List<PeopleBean> all = peopleService.getAll();
-
+    connection1.close();
+    Connection connection2=DB.getConnection();
+    Statement statement3 = connection2.createStatement();
+    ResultSet resultSet2 = statement3.executeQuery("select count (*) from public.category");
+    int numberOfCat=0;
+    while (resultSet2.next()){
+      numberOfCat = resultSet2.getInt(1);
+   }
+    connection.close();
+    Connection connection3=DB.getConnection();
+    Statement statement4 = connection3.createStatement();
+    ResultSet resultSet3 = statement4.executeQuery("select count (*) from public.publisher");
+    int numberOfPublishers=0;
+    while (resultSet3.next()){
+      numberOfPublishers=resultSet3.getInt(1);
+   }
 
 
 %>
@@ -78,7 +99,7 @@
     </div>
     <ul class="nav-links">
         <li>
-            <a href="index.jsp" class="active">
+            <a href="Home.jsp" class="active">
                 <i class='bx bx-grid-alt'></i>
                 <span class="links_name">Dashboard</span>
             </a>
@@ -96,9 +117,15 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="viewPublishers">
+                <i class='bx bx-list-ul'></i>
+                <span class="links_name">Publishers list</span>
+            </a>
+        </li>
+        <li>
+            <a href="addUser">
                 <i class='bx bx-pie-chart-alt-2'></i>
-                <span class="links_name">Analytics</span>
+                <span class="links_name">Add User</span>
             </a>
         </li>
         <li>
@@ -108,37 +135,15 @@
             </a>
         </li>
         <li>
-            <a href="#">
-                <i class='bx bx-book-alt'></i>
-                <span class="links_name"></span>
+            <a href="/addPublisher">
+                <i class='bx bx-coin-stack'></i>
+                <span class="links_name">AddPublisher</span>
             </a>
         </li>
-        <li>
-            <a href="/viewUsers.jsp">
-                <i class='bx bx-user'></i>
-                <span class="links_name">Team</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-message'></i>
-                <span class="links_name">Messages</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-heart'></i>
-                <span class="links_name">Favrorites</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-cog'></i>
-                <span class="links_name">Setting</span>
-            </a>
-        </li>
+
+
         <li class="log_out">
-            <a href="#">
+            <a href="/logout">
                 <i class='bx bx-log-out'></i>
                 <span class="links_name">Log out</span>
             </a>
@@ -175,6 +180,28 @@
                     </div>
                 </div>
                 <i class='bx bx-cart-alt cart'></i>
+            </div> <div class="box">
+                <div class="right-side">
+                    <div class="box-topic">Total Categories</div>
+                    <div class="number"><%=numberOfCat%>
+                    </div>
+                    <div class="indicator">
+                        <i class='bx bx-up-arrow-alt'></i>
+                        <span class="text">Up from yesterday</span>
+                    </div>
+                </div>
+                <i class='bx bx-cart-alt cart'></i>
+            </div><div class="box">
+                <div class="right-side">
+                    <div class="box-topic">Total Publishers</div>
+                    <div class="number"><%=numberOfPublishers%>
+                    </div>
+                    <div class="indicator">
+                        <i class='bx bx-up-arrow-alt'></i>
+                        <span class="text">Up from yesterday</span>
+                    </div>
+                </div>
+                <i class='bx bx-cart-alt cart'></i>
             </div>
             <div class="box">
                 <div class="right-side">
@@ -188,28 +215,8 @@
                 </div>
                 <i class='bx bxs-cart-add cart two'></i>
             </div>
-            <div class="box">
-                <div class="right-side">
-                    <div class="box-topic">Total Profit</div>
-                    <div class="number">$12,876</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
-                </div>
-                <i class='bx bx-cart cart three'></i>
-            </div>
-            <div class="box">
-                <div class="right-side">
-                    <div class="box-topic">Total Return</div>
-                    <div class="number">11,086</div>
-                    <div class="indicator">
-                        <i class='bx bx-down-arrow-alt down'></i>
-                        <span class="text">Down From Today</span>
-                    </div>
-                </div>
-                <i class='bx bxs-cart-download cart four'></i>
-            </div>
+
+
         </div>
 
         <div class="sales-boxes">
@@ -218,23 +225,33 @@
 
                 <%--                <div class="sales-details">--%>
                 <ul class="details" style="font-family: 'Arial Black'">
-                    <li><a href="/returnOne?id=<%=list.get(0).getId()%>"><%=list.get(list.size()-1).getCreatedTime()%></a>    <%=list.get(0).getTitles()%></li>
-                    <li><a href="/returnOne?id=<%=list.get(1).getId()%>"><%=list.get(list.size()-2).getCreatedTime()%></a>    <%=list.get(1).getTitles()%></li>
-                    <li><a href="/returnOne?id=<%=list.get(2).getId()%>"><%=list.get(list.size()-3).getCreatedTime()%></a>    <%=list.get(2).getTitles()%></li>
-                    <li><a href="/returnOne?id=<%=list.get(3).getId()%>"><%=list.get(list.size()-4).getCreatedTime()%></a>    <%=list.get(3).getTitles()%></li>
-                    <li><a href="/returnOne?id=<%=list.get(4).getId()%>"><%=list.get(list.size()-5).getCreatedTime()%></a>    <%=list.get(4).getTitles()%></li>
+                    <li><a href="/returnOne?id=<%=list.get(0).getId()%>"><%=list.get(list.size() - 1).getCreatedTime()%>
+                    </a> <%=list.get(0).getTitles()%>
+                    </li>
+                    <li><a href="/returnOne?id=<%=list.get(1).getId()%>"><%=list.get(list.size() - 2).getCreatedTime()%>
+                    </a> <%=list.get(1).getTitles()%>
+                    </li>
+                                        <li><a href="/returnOne?id=<%=list.get(2).getId()%>"><%=list.get(list.size()-3).getCreatedTime()%></a>    <%=list.get(2).getTitles()%></li>
+                                        <li><a href="/returnOne?id=<%=list.get(3).getId()%>"><%=list.get(list.size()-4).getCreatedTime()%></a>    <%=list.get(3).getTitles()%></li>
+                                        <li><a href="/returnOne?id=<%=list.get(4).getId()%>"><%=list.get(list.size()-5).getCreatedTime()%></a>    <%=list.get(4).getTitles()%></li>
                 </ul>
             </div>
             <div class="recent-sales box">
                 <div class="title">Recently Registered Users</div>
-                                    <ul class="details">
+                <ul class="details">
 
-                                        <li><a href="viewUsers"><%=all.get(all.size()-1).getFullName()%></li>
-                                        <li><a href="viewUsers"><%=all.get(all.size()-2).getFullName()%></a></li>
-                                        <li><a href="viewUsers"><%=all.get(all.size()-3).getFullName()%></a></li>
-                                        <li><a href="viewUsers"><%=all.get(all.size()-4).getFullName()%></a></li>
-                                        <li><a href="viewUsers"><%=all.get(all.size()-5).getFullName()%></a></li>
-                                    </ul>
+                    <li><a href="viewUsers"><%=all.get(all.size() - 1).getFullName()%>
+                    </a>
+                    </li>
+                    <li><a href="viewUsers"><%=all.get(all.size() - 2).getFullName()%>
+                    </a></li>
+                    <li><a href="viewUsers"><%=all.get(all.size() - 3).getFullName()%>
+                    </a></li>
+                    <li><a href="viewUsers"><%=all.get(all.size() - 4).getFullName()%>
+                    </a></li>
+                    <li><a href="viewUsers"><%=all.get(all.size() - 5).getFullName()%>
+                    </a></li>
+                </ul>
             </div>
 
         </div>

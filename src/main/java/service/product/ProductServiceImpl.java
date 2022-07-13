@@ -13,12 +13,12 @@ public class ProductServiceImpl implements ProductService {
         Connection connection = DB.getConnection();
         int i = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into public.\"product\"(titles,description,\"sourcelinkTo\", \"createdTime\",category_id,photofile,text) values (?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into public.\"product\"(titles,description,\"sourcelinkto\", \"created_at\",category_id,photofile,textdata) values (?,?,?,?,?,?,?)");
             preparedStatement.setString(1, productBean.getTitles());
             preparedStatement.setString(2, productBean.getDescription());
             preparedStatement.setString(3, productBean.getSourceLinkTo());
             preparedStatement.setDate(4, productBean.getCreatedTime());
-            preparedStatement.setInt(5, productBean.getCategoryId());
+            preparedStatement.setInt(5, productBean.getCategory_Id());
             preparedStatement.setBytes(6, productBean.getPhotoFile());
             preparedStatement.setString(7, productBean.getText());
             i = preparedStatement.executeUpdate();
@@ -46,9 +46,10 @@ public class ProductServiceImpl implements ProductService {
                 productBean.setDescription(resultSet.getString(3));
                 productBean.setSourceLinkTo(resultSet.getString(4));
                 productBean.setCreatedTime(resultSet.getDate(5));
-                productBean.setCategoryId(resultSet.getInt(6));
+                productBean.setCategory_Id(resultSet.getInt(6));
                 productBean.setPhotoFile(resultSet.getBytes(7));
                 productBean.setText(resultSet.getString(8));
+                productBean.setUpdated_at(resultSet.getDate(9));
                 list.add(productBean);
 
 
@@ -78,9 +79,10 @@ public class ProductServiceImpl implements ProductService {
                 productBean.setDescription(resultSet.getString(3));
                 productBean.setSourceLinkTo(resultSet.getString(4));
                 productBean.setCreatedTime(resultSet.getDate(5));
-                productBean.setCategoryId(resultSet.getInt(6));
+                productBean.setCategory_Id(resultSet.getInt(6));
                 productBean.setPhotoFile(resultSet.getBytes(7));
                 productBean.setText(resultSet.getString(8));
+                productBean.setUpdated_at(resultSet.getDate(9));
 
             }
 

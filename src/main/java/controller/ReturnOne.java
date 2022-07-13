@@ -19,6 +19,12 @@ public class ReturnOne extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("username")==null){
+            resp.sendRedirect("login.jsp");
+        }
+        if (req.getSession().getAttribute("username")==null){
+            resp.sendRedirect("login.jsp");
+        }
         PrintWriter out = resp.getWriter();
         try {
 
@@ -36,13 +42,13 @@ public class ReturnOne extends HttpServlet {
             out.println("<tr><th>title</th><th>description</th><th>link</th><th>time</th><th>category</th></tr>");
         String category="";
 
-            switch (id.getCategoryId()){
+            switch (id.getCategory_Id()){
                 case 1:
-                    category="Spoert";
+                    category="General";
                 case 2:
                     category="Politics";
                 case 3:
-                    category="General";
+                    category="Sport";
 
             }
             out.println("<tr><td>"+id.getTitles()+"</td><td>"+id.getDescription()+"</td><td>"+id.getSourceLinkTo()+"</td><td>"+id.getCreatedTime()+"</td><td>"+category+"</td></tr>");

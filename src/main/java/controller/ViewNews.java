@@ -1,6 +1,8 @@
 package controller;
 
+import entity.Category;
 import entity.ProductBean;
+import service.category.CategoryServices;
 import service.product.ProductServiceImpl;
 
 import javax.servlet.ServletException;
@@ -70,6 +72,9 @@ ProductServiceImpl productService = new ProductServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("username")==null){
+            resp.sendRedirect("login.jsp");
+        }
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
@@ -89,16 +94,11 @@ ProductServiceImpl productService = new ProductServiceImpl();
 
 
             for (ProductBean productBean : all) {
-                String category="";
-                switch (productBean.getCategoryId()){
-                    case 1:
-                        category="Sport";
-                    case 2:
-                        category="Politics";
-                    case 3 :
-                        category="Generel";
-                }
-            out.println("<tr><td>" + productBean.getTitles() + "</td><td>" + productBean.getDescription() + "</td><td>" + productBean.getSourceLinkTo() + "</td><td>"+productBean.getCreatedTime()+"</td><td>"+category+"</td><td><a href='deleteNews?id=" + productBean.getId() + "'>Delete</a></td></tr>");
+                Category one = CategoryServices.getOne(productBean.getCategory_Id());
+                String name = one.getName();
+
+
+                out.println("<tr><td>" + productBean.getTitles() + "</td><td>" + productBean.getDescription() + "</td><td>" + productBean.getSourceLinkTo() + "</td><td>"+productBean.getCreatedTime()+"</td><td>"+name+"</td><td><a href='deleteNews?id=" + productBean.getId() + "'>Delete</a></td></tr>");
 
 //
 //

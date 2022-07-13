@@ -1,18 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<%--
+  Created by IntelliJ IDEA.
+  User: Muhammadqodir
+  Date: 7/9/2022
+  Time: 2:32 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>SignIn</title>
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 
 </head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-
-<body style="margin: 40px" >
-
+<body style="margin: 40px">
 <form  action="/" style="text-align: center ; width: 500px ; margin-left: 500px ; margin-top: 100px "  method="post"  >
 
     <div class="form-outline mb-4">
-        <input type="text" id="form2Example1" class="form-control" name="name" />
+        <input type="text" id="form2Example1" class="form-control" name="name" required />
         <label class="form-label" for="form2Example1">USERNAME</label>
     </div>
 
@@ -24,9 +29,8 @@
 
 
     <!-- Submit button -->
-  <input type="submit">
+    <input type="submit">
 
 </form>
-
 </body>
 </html>

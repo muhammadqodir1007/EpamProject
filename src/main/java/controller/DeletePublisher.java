@@ -1,6 +1,6 @@
 package controller;
 
-import service.people.PeopleService;
+import service.publisher.PublisherService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/deleteUser")
-public class DeleteUsers extends HttpServlet {
+@WebServlet("/deletePublisher")
+public class DeletePublisher extends HttpServlet {
+
+    PublisherService publisherService=new PublisherService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        PeopleService peopleService=new PeopleService();
         try {
-            peopleService.deleteById(Integer.parseInt(req.getParameter("id")));
-            resp.sendRedirect("/viewUsers");
+            publisherService.deletebyid(Integer.parseInt(req.getParameter("id")));
+            // resp.sendRedirect("viewPublishers");
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
+        resp.sendRedirect("viewPublishers");
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PeopleService {
 
-    public int addUser(PeopleBean bean) {
+    public  int addUser(PeopleBean bean) {
         int i = 0;
         Connection connection = DB.getConnection();
 
