@@ -33,6 +33,24 @@ CREATE TABLE public.product
     created_At TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_At TIMESTAMPTZ NOT NULL DEFAULT NOW()
 )
+CREATE TABLE public.complain
+(
+    id bigserial NOT NULL PRIMARY KEY ,
+    message character varying(255) NOT NULL,
+    user_id integer NOT NULL,
+    publisher_id integer NOT NULL,
+    created_At TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_At TIMESTAMPTZ NOT NULL DEFAULT NOW()
+)
+CREATE TABLE public.Contacts
+(
+    id bigserial NOT NULL PRIMARY KEY ,
+    username character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    textResponse text NOT NULL,
+    created_At TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_At TIMESTAMPTZ NOT NULL DEFAULT NOW()
+)
 
 
 
