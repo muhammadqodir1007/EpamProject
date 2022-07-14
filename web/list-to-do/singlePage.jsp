@@ -1,5 +1,7 @@
 <%@ page import="service.product.ProductServiceImpl" %>
-<%@ page import="entity.Product" %><%--
+<%@ page import="entity.Product" %>
+<%@ page import="payload.CookieService" %>
+<%@ page import="entity.Users" %><%--
   Created by IntelliJ IDEA.
   User: Temurbek
   Date: 6/19/2022
@@ -124,9 +126,38 @@
         .form-group textarea.form-input {
             height: 150px;
         }
+        button.like{
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+            line-heigth: 50px;
+            border-radius: 50%;
+            color: rgba(0,150,136 ,1);
+            background-color:rgba(38,166,154 ,0.3);
+            border-color: rgba(0,150,136 ,1);
+            border-width: 1px;
+            font-size: 15px;
+        }
 
+        button.dislike{
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+            line-heigth: 50px;
+            border-radius: 50%;
+            color: rgba(255,82,82 ,1);
+            background-color: rgba(255,138,128 ,0.3);
+            border-color: rgba(255,82,82 ,1);
+            border-width: 1px;
+            font-size: 15px;
+        }
 
     </style>
+    <%
+        CookieService service = new CookieService();
+        Users user = service.getCurrentUser(request);
+        boolean isAc=user.isActive();
+    %>
 </head>
 <body>
 <jsp:include page="../header/header.jsp"></jsp:include>
@@ -141,7 +172,7 @@
                 </a>
                 <div class="card-body">
 
-                    <div  style="display: flex; justify-content: space-between">
+                    <div  class="d-flex justify-content-between">
                         <div>
                             <div class="small text-muted"><c:out value="${currentProduct.created_at}"/>
                         </div>
@@ -149,7 +180,9 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                 <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+
                             </svg>
+                            <c:out value="${currentProduct.counterOfView}"/>
                         </div>
                     </div>
 
@@ -320,14 +353,22 @@
                 <div class="card-body text-center">
                     <img src="https://thumbs.dreamstime.com/b/writer-agency-publishing-company-vector-logo-design-black-feather-pen-icon-writer-agency-publishing-company-logo-231443324.jpg" alt="avatar"
                          class="rounded-circle img-fluid" style="width: 150px;">
-                    <h5 class="my-3"><c:out value="${currentPublisher.nameOf}"/></h5>
+                    <h5 class="my-3"><c:out value="${currentPublisher.nameOfCompany}"/></h5>
                     <p class="text-muted mb-1"><c:out value="${currentPublisher.email}"/></p>
                     <p class="text-muted mb-4"><c:out value="${currentPublisher.address}"/></p>
 
                     <div class="d-flex justify-content-center mb-2">
                         <a href="displayPublisher?id=<c:out value='${currentPublisher.id}' />" type="button"
                            class="btn btn-primary">View publisher</a>
-                        <button type="button" class="btn btn-outline-primary ms-1">Complain</button>
+                   <%
+                   if (isAc)
+                   {
+                   %>
+                        <a href="complain?id=<c:out value='${currentPublisher.id}' />"type="button" class="btn btn-outline-primary ms-1">Complain</a>
+                   <%
+                       }
+                   %>
+
                     </div>
                 </div>
             </div>
