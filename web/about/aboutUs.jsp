@@ -51,67 +51,82 @@
             cursor: pointer;
             border: solid 1px #BA68C8
         }
-        .card1{
-            background-color:#142948;
-            border-radius:15px;
-            height:200px;
+
+        .card1 {
+            background-color: #142948;
+            border-radius: 15px;
+            height: 200px;
         }
-        .card2{
-            background-color:#fff;
-            border-radius:15px;
-            border:2px solid #919ba9;
-            height:300px;
+
+        .card2 {
+            background-color: #fff;
+            border-radius: 15px;
+            border: 2px solid #919ba9;
+            height: 300px;
 
         }
+
         .first {
-            color:#a4adb8;
+            color: #a4adb8;
         }
-        .text1{
-            color:#fff;
-            font-weight:700;
+
+        .text1 {
+            color: #fff;
+            font-weight: 700;
         }
-        .detail{
-            color:#a4adb8;
+
+        .detail {
+            color: #a4adb8;
         }
-        .readmore{
-            font-weight:400;
-            color:#fff;
+
+        .readmore {
+            font-weight: 400;
+            color: #fff;
         }
-        .btn-submit{
-            border-radius:50px;
-            border:none;
-            height:35px;
-            width:120px;
-            font-size:14px;
-            font-weight:500;
+
+        .btn-submit {
+            border-radius: 50px;
+            border: none;
+            height: 35px;
+            width: 120px;
+            font-size: 14px;
+            font-weight: 500;
 
         }
-        .text2{
-            color:#000;
-            font-weight:700;
+
+        .text2 {
+            color: #000;
+            font-weight: 700;
         }
-        .second{
-            color:#8b96a5;
+
+        .second {
+            color: #8b96a5;
 
         }
-        .btn-submit1{
-            border-radius:50px;
-            border:none;
-            height:35px;
-            width:120px;
-            font-size:14px;
-            background-color:#f1884d;
-            color:#fff;
-            font-weight:500;
+
+        .btn-submit1 {
+            border-radius: 50px;
+            border: none;
+            height: 35px;
+            width: 120px;
+            font-size: 14px;
+            background-color: #f1884d;
+            color: #fff;
+            font-weight: 500;
 
         }
     </style>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 </head>
 <body>
 <%--<jsp:include page="../header/header.jsp"></jsp:include>--%>
 <%@ page import="payload.CookieService" %>
 <%@ page import="entity.Users" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.Publisher" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="service.publisher.PublisherServices" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
@@ -276,6 +291,76 @@
     }
 
 </style>
+<style>
+    body {
+        background-color: #eee
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px
+    }
+
+    .c-details span {
+        font-weight: 300;
+        font-size: 13px
+    }
+
+    .icon {
+        width: 50px;
+        height: 50px;
+        background-color: #eee;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 39px
+    }
+
+    .badge span {
+        background-color: #fffbec;
+        width: 60px;
+        height: 25px;
+        padding-bottom: 3px;
+        border-radius: 5px;
+        display: flex;
+        color: #fed85d;
+        justify-content: center;
+        align-items: center
+    }
+
+    .progress {
+        height: 10px;
+        border-radius: 10px
+    }
+
+    .progress div {
+        background-color: red
+    }
+
+    .text1 {
+        font-size: 14px;
+        font-weight: 600
+    }
+
+    .text2 {
+        color: #a5aec0
+    }
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
 <%
     CookieService service = new CookieService();
     Users user = service.getCurrentUser(request);
@@ -289,8 +374,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/aboutUs">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="modal" href="#exampleModal">
                         Subscribtion
@@ -469,59 +554,98 @@
 
 </div>
 <%--Our publishers--%>
-<div class=" py-4 container min-vh-100 d-flex justify-content-center align-items-center">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card1  mt-3 p-3 g-2">
-                <div class="d-flex align-items-center">
-                    <small class="first">Today at 1:30 pm</small>
-                </div>
-                <div class="mt-3">
-                    <h2 class="text1">Machine Learning <br>Notes</h2>
-                </div>
-                <div class="detail mt-5">
-                    <small>Machine Learning is a method of data data analysis that automates analytical model
-                        building</small>
 
+<main>
+    <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                <span class="fs-4">This is about us page</span>
+            </a>
+        </header>
 
-                </div>
-                <div class="mt-3 d-flex justify-content-end px-2">
-                    <button class="btn-submit">Make a Boww</button>
-                </div>
-
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">About us</h1>
+                <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one
+                    in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it
+                    to your liking.</p>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card2  mt-3 p-3 g-2">
-                <div class="d-flex align-items-center">
-                    <small class="second">Today at 1:30 pm</small>
+        <div class="row align-items-md-stretch">
+
+            <div class="col-md-12">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                    <h2 style="position: center">Our Publisher companies</h2>
+                    <p>Or, keep it light and add a border for some added definition to the boundaries of your content.
+                        Be sure to look under the hood at the source HTML here as we've adjusted the alignment and
+                        sizing of both column's content for equal-height.</p>
+                    <button style="position: center" class="btn btn-outline-secondary" type="button">Example button
+                    </button>
                 </div>
-                <div class="mt-3">
-                    <h2 class="text2">What kind of<br> knowledge?</h2>
-                </div>
-                <div class="detail mt-5">
-                    <div class="px-1">
+            </div>
+        </div>
 
-                        <small>William Albert Ackman an American invester,hedge fund manager a philanthropist
+        <div class="container mt-5 mb-3">
+            <div class="row">
+                <%
+                    PublisherServices publisherServices = new PublisherServices();
+                    List<Publisher> publisherList = publisherServices.getAllPublisher();
+                    for (Publisher publisher : publisherList) {
+                %>
+                <div class="col-md-4">
+                    <div class="card p-3 mb-2">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="icon"><i class="bx bxl-mailchimp"></i></div>
+                                <div class="ms-2 c-details">
+                                    <h6 class="mb-0">
+                                        <%=publisher.getUsername() == null ? "" : publisher.getUsername()%>
+                                        <%--                                            <c:out value="${pub.username}"/>--%>
+                                    </h6>
+                                </div>
+                            </div>
+                            <%
+                                if (publisher.isActive()) {
+                            %>
+                            <div class="badge">
+                                <span class="badge rounded-pill bg-primary">Active</span>
+                            </div>
+                            <%
+                            } else {
+                            %>
+                            <div class="badge">
+                                <span class="badge rounded-pill bg-danger">No active</span>
+                            </div>
+                            <%
+                                }
+                            %>
 
 
-                        </small>
+                        </div>
+                        <div class="mt-5">
+                            <a style="text-decoration: none;color: black"
+                               href="displayPublisher?id=<%=publisher.getId()%>">
+                                <h3 class="heading"><%=publisher.getNameOfCompany()%>
+                                </h3>
+                            </a>
+                            <div class="mt-5">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50"
+                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="mt-3"><span class="text1">32 Applied <span
+                                        class="text2"><%=publisher.getEmail()%></span></span></div>
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
-                <div class="mt-3 d-flex justify-content-end px-2">
-                    <button class="btn-submit1">Bowwow</button>
-                </div>
-
-
+                <%}%>
             </div>
         </div>
     </div>
+</main>
 
-
-</div>
 <jsp:include page="../footer/footer.jsp"></jsp:include>
 </body>
 </html>
