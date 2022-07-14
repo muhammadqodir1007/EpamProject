@@ -2,10 +2,13 @@ package controller;
 
 import com.google.gson.Gson;
 import entity.EmailConfir;
+import entity.Publisher;
 import entity.Users;
 import org.apache.tomcat.util.codec.binary.Base64;
+import payload.CookieService;
 import payload.UserDto;
 import service.email.EmailServices;
+import service.publisher.PublisherServices;
 import service.users.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -18,15 +21,20 @@ import java.util.Set;
 import java.util.TreeSet;
 
 @WebServlet(urlPatterns = {"/sendEmail", "/registration",
-        "/showRegister", "/login", "/logout","/userSetting"})
+        "/showRegister", "/login", "/logout",
+        "/userSetting", "/complain", "/complained", "/changeProfile"})
 public class UserController extends HttpServlet {
     private EmailServices emailServices;
     private UserService userService;
+    private PublisherServices publisherServices;
+    private CookieService cookieService;
     private static final long serialVersionUID = 1L;
 
     public void init() {
+        cookieService = new CookieService();
         emailServices = new EmailServices();
         userService = new UserService();
+        publisherServices = new PublisherServices();
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,11 +55,20 @@ public class UserController extends HttpServlet {
                 case "/logout":
                     calcelAuthentication(request, response);
                     break;
+                case "/complain":
+                    getComplaining(request, response);
+                    break;
+                case "/complained":
+                    potComplaining(request, response);
+                    break;
                 case "/showRegister":
                     showRegister(request, response);
                     break;
                 case "/registration":
                     register(request, response);
+                    break;
+                case "/changeProfile":
+                    profileChange(request, response);
                     break;
                 case "/userSetting":
                     setting(request, response);
@@ -60,6 +77,63 @@ public class UserController extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+
+    protected void getComplaining(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        Publisher publisher = publisherServices.getPublisherById(id);
+        request.setAttribute("publish", publisher);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("complain/complaining.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    protected void profileChange(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        System.out.println("started");
+        Users users = cookieService.getCurrentUser(request);
+        Cookie cUserName = new Cookie("cocUser", null);
+        Cookie cPassword = new Cookie("cocPas", null);
+        Cookie cRemember = new Cookie("cocRem", null);
+        cUserName.setMaxAge(0);
+        cPassword.setMaxAge(0);
+        cRemember.setMaxAge(0);
+        response.addCookie(cUserName);
+        response.addCookie(cPassword);
+        response.addCookie(cRemember);
+        HttpSession httpSession = request.getSession();
+        httpSession.invalidate();
+        String username = request.getParameter("username");
+        String fullName = request.getParameter("fullName");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+         userService.updateUser(username,fullName,password,phoneNumber,email,users.getId());
+            response.sendRedirect("/");
+    }
+
+    protected void potComplaining(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String mass = request.getParameter("messageComplain");
+        System.out.println("get username");
+        System.out.println(request.getParameter("id") + "qdqw");
+        CookieService cookieService = new CookieService();
+        Users users = cookieService.getCurrentUser(request);
+        System.out.println("tookk it");
+        System.out.println(users.getUsername());
+//        long userID=userService.getId(username);
+        if (userService.saveMassage(users.getId(), id, mass) == 1) {
+            request.setAttribute("msg", true);
+        } else {
+            request.setAttribute("msg", false);
+        }
+        Publisher publisher = publisherServices.getPublisherById(id);
+        request.setAttribute("publish", publisher);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/complain");
+        dispatcher.forward(request, response);
     }
 
     protected void sendEmail(HttpServletRequest request, HttpServletResponse response)
@@ -90,10 +164,11 @@ public class UserController extends HttpServlet {
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setPassword(password);
+        HttpSession httpSession = request.getSession();
 
         if (userService.validate(userDto)) {
             Users users = userService.getUserDetails(userDto);
-            HttpSession httpSession = request.getSession();
+            userService.saveisActive(users);
             httpSession.setAttribute("userSession", users);
             Cookie cookieUser = new Cookie("cocUser", username);
             Cookie cookiePas = new Cookie("cocPas", password);
@@ -117,6 +192,8 @@ public class UserController extends HttpServlet {
 
     private void calcelAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        Users users = cookieService.getCurrentUser(request);
+        userService.saveNoisActive(users);
         Cookie cUserName = new Cookie("cocUser", null);
         Cookie cPassword = new Cookie("cocPas", null);
         Cookie cRemember = new Cookie("cocRem", null);

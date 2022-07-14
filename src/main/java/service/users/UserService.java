@@ -25,6 +25,10 @@ public class UserService {
             "\tVALUES (?, ?, ?, ?,?);";
     private static final String GET_ALL_USERS = "SELECT id, username, \"fullName\", password, \"phoneNumber\", email, created_at, updated_at\n" +
             "\tFROM public.users";
+    private static final String SAVE_MASSAGE = "INSERT INTO public.complain(\n" +
+            "\tmessage, user_id, publisher_id)\n" +
+            "\tVALUES (?, ?, ?);";
+
 
     public ResultSet getresultSet(String query) throws SQLException {
         Connection connection = DB.getConnection();
@@ -32,6 +36,7 @@ public class UserService {
         ResultSet rs = preparedStatement.executeQuery();
         return rs;
     }
+
 
     public PreparedStatement getstatement(String query) throws SQLException {
         Connection connection = DB.getConnection();
@@ -62,6 +67,7 @@ public class UserService {
                 "password='" + userDto.getPassword() + "'");
              ResultSet set = preparedStatement.executeQuery();) {
             while (set.next()) {
+                users.setId(set.getLong("id"));
                 users.setUsername(set.getString("username"));
                 users.setFullName(set.getString("fullname"));
                 users.setPhoneNumber(set.getString("phoneNumber"));
@@ -74,6 +80,36 @@ public class UserService {
         }
         return users;
     }
+
+    public void saveisActive(Users users) {
+        boolean status = true;
+        long idUser = users.getId();
+        try {
+            PreparedStatement preparedStatement = getstatement(
+                    "UPDATE public.users\n" +
+                            "\tSET \"isActive\"=" + status + "\n" +
+                            "\tWHERE id=" + idUser + ";"
+            );
+            int resultSet = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+    }
+
+    public void saveNoisActive(Users users) {
+        long idUser = users.getId();
+        try {
+            PreparedStatement preparedStatement = getstatement(
+                    "UPDATE public.users\n" +
+                            "\tSET \"isActive\"=" + "false" + "\n" +
+                            "\tWHERE id=" + idUser + ";"
+            );
+            int resultSet = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+    }
+
     public boolean validate(UserDto userDto) {
         boolean status = false;
         try (Connection connection = DB.getConnection();
@@ -91,6 +127,7 @@ public class UserService {
         }
         return status;
     }
+
 
     public int saveUser(Users users) {
         int result = 0;
@@ -110,6 +147,43 @@ public class UserService {
         }
         return result;
     }
+
+    public int updateUser(String username, String fullName,String pass, String phone, String email,long id)
+    {
+        int resul = 0;
+        try {
+            PreparedStatement preparedStatement = getstatement(
+                    "UPDATE public.users\n" +
+                            "\tSET username='"+username+"'," +
+                            " \"fullName\"='"+fullName+"'," +
+                            " password='"+pass+"'," +
+                            " \"phoneNumber\"='"+phone+"'," +
+                            " email='"+email+"',\"isActive\"='"+false+"' WHERE id='"+id+"';"
+            );
+             resul = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+        return resul;
+    }
+
+    public int saveMassage(long userId, int publisher_id, String mas) {
+        int result = 0;
+        System.out.println(SAVE_MASSAGE);
+        // try-with-resource statement will auto close the connection.
+        try (Connection connection = DB.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SAVE_MASSAGE)) {
+            preparedStatement.setString(1, mas);
+            preparedStatement.setLong(2, userId);
+            preparedStatement.setInt(3, publisher_id);
+            System.out.println(preparedStatement);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException exception) {
+            DB.printSQLException(exception);
+        }
+        return result;
+    }
+
     public List<Users> getAllUser() {
         List<Users> usersList = new ArrayList<>();
         try {
@@ -122,17 +196,21 @@ public class UserService {
         }
         return usersList;
     }
+
+    public long getId(String username) {
+        Users users = getAllUser().stream().filter((s) -> s.getUsername().equals(username)).findAny().get();
+        return users.getId();
+    }
+
     public boolean isUserExist(Users users) {
-      boolean status=false;
+        boolean status = false;
         List<Users> usersList = getAllUser();
         Set<Users> users1 = usersList.stream().collect(Collectors.toSet());
         Predicate<Users> predicate = (s) -> s.equals(users);
-        for (Users users2 : users1)
-        {
+        for (Users users2 : users1) {
             if (predicate.test(users2)) {
-                status=true;
-            }
-            else {
+                status = true;
+            } else {
                 continue;
             }
         }

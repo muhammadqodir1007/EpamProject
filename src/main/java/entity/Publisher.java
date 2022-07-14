@@ -5,59 +5,65 @@ import java.util.Objects;
 
 public class Publisher {
     private long id;
-    private String nameOf;
+    private String username;
+    private String nameOfCompany;
     private String address;
     private String phoneNumber;
     private String email;
     private String password;
     private String description;
+    private boolean isActive;
     private Date created_At;
     private Date updated_At;
 
-    public Publisher(String nameOf,
-                     String address,
-                     String phoneNumber,
-                     String email,
-                     String password,
-                     String description) {
-        this.nameOf = nameOf;
+    public Publisher(String username, String nameOfCompany, String address, String phoneNumber, String email, String password, String description, boolean isActive) {
+        this.username = username;
+        this.nameOfCompany = nameOfCompany;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.description = description;
+        this.isActive = isActive;
     }
 
-    public Publisher(long id, String nameOf,
-                     String address, String phoneNumber,
-                     String email, String password, String description) {
+    public Publisher(long id, String username, String nameOfCompany, String address, String phoneNumber, String email, String password, String description, boolean isActive) {
         this.id = id;
-        this.nameOf = nameOf;
+        this.username = username;
+        this.nameOfCompany = nameOfCompany;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.description = description;
+        this.isActive = isActive;
     }
 
-    public Publisher(long id, String nameOf, String address,
-                     String phoneNumber,
-                     String email, String password,
-                     String description, Date created_At,
-                     Date updated_At) {
+
+    public Publisher(long id, String username, String nameOfCompany, String address, String phoneNumber, String email, String password, String description, boolean isActive, Date created_At, Date updated_At) {
         this.id = id;
-        this.nameOf = nameOf;
+        this.username = username;
+        this.nameOfCompany = nameOfCompany;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
         this.description = description;
+        this.isActive = isActive;
         this.created_At = created_At;
         this.updated_At = updated_At;
     }
 
     public Publisher() {
 
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public long getId() {
@@ -68,12 +74,20 @@ public class Publisher {
         this.id = id;
     }
 
-    public String getNameOf() {
-        return nameOf;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNameOf(String nameOf) {
-        this.nameOf = nameOf;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getNameOfCompany() {
+        return nameOfCompany;
+    }
+
+    public void setNameOfCompany(String nameOfCompany) {
+        this.nameOfCompany = nameOfCompany;
     }
 
     public String getAddress() {
@@ -136,12 +150,14 @@ public class Publisher {
     public String toString() {
         return "Publisher{" +
                 "id=" + id +
-                ", nameOf='" + nameOf + '\'' +
+                ", username='" + username + '\'' +
+                ", nameOfCompany='" + nameOfCompany + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", description='" + description + '\'' +
+                ", isActive=" + isActive +
                 ", created_At=" + created_At +
                 ", updated_At=" + updated_At +
                 '}';
@@ -152,16 +168,21 @@ public class Publisher {
         if (this == o) return true;
         if (!(o instanceof Publisher)) return false;
         Publisher publisher = (Publisher) o;
-        return nameOf.equals(publisher.nameOf) &&
-                address.equals(publisher.address) &&
-                phoneNumber.equals(publisher.phoneNumber) &&
-                email.equals(publisher.email) &&
-                password.equals(publisher.password) &&
-                description.equals(publisher.description);
+        return username.equals(publisher.username)
+                && nameOfCompany.equals(publisher.nameOfCompany)
+                && address.equals(publisher.address)
+                && phoneNumber.equals(publisher.phoneNumber)
+                && email.equals(publisher.email)
+                && password.equals(publisher.password)
+                && description.equals(publisher.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nameOf, address, phoneNumber, email, password, description);
+        return Objects.hash(username,
+                nameOfCompany,
+                address, phoneNumber,
+                email, password,
+                description);
     }
 }

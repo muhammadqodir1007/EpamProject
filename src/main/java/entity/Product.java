@@ -11,6 +11,7 @@ public class Product {
     private String description;
     private String sourcelinkTo;
     private String photofile;
+    private int counterOfView;
     private Date created_at;
     private Date updated_at;
 
@@ -130,6 +131,10 @@ public class Product {
         this.updated_at = updated_at;
     }
 
+    public int getCounterOfView() {
+        return counterOfView;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -139,8 +144,14 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", sourcelinkTo='" + sourcelinkTo + '\'' +
                 ", photofile='" + photofile + '\'' +
+                ", counterOfView=" + counterOfView +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
     }
+
+    public void setCounterOfView(int counterOfView) {
+        this.counterOfView = counterOfView;
+    }
+
 }
