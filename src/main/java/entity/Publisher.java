@@ -7,12 +7,44 @@ public class Publisher {
 
 
     Long id;
-    String name,address,phoneNumber,email,password;
-    Date created_at,updated_at;
+    String nameOfCompany, address, phoneNumber, email, password, username, description;
+    Date created_at, updated_at;
+    boolean isActive, isBlocked;
 
-    public Publisher(Long id, String name, String address, String phoneNumber, String email, String password, Date created_at, Date updated_at) {
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Publisher(Long id, String nameOfCompany, String address, String phoneNumber, String email, String password, String username, String description, Date created_at, Date updated_at, boolean isActive) {
         this.id = id;
-        this.name = name;
+        this.nameOfCompany = nameOfCompany;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.description = description;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.isActive = isActive;
+    }
+
+    public Publisher(Long id, String nameOfCompany, String address, String phoneNumber, String email, String password, Date created_at, Date updated_at) {
+        this.id = id;
+        this.nameOfCompany = nameOfCompany;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -30,12 +62,12 @@ public class Publisher {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameOfCompany() {
+        return nameOfCompany;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameOfCompany(String nameOfCompany) {
+        this.nameOfCompany = nameOfCompany;
     }
 
     public String getAddress() {
@@ -87,14 +119,62 @@ public class Publisher {
     }
 
 
-    public Publisher(String name, String address, String phoneNumber, String email, String password) {
-        this.name = name;
+    public Publisher(String nameOfCompany, String address, String phoneNumber, String email, String password, String username, String description, boolean isBlocked) {
+        this.nameOfCompany = nameOfCompany;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
+        this.username = username;
+        this.description = description;
+        this.isBlocked = isBlocked;
+
     }
 
+    public Publisher(Long id, String nameOfCompany, String address, String phoneNumber, String email, String password, String username, boolean isBlocked) {
+
+        this.id = id;
+        this.nameOfCompany = nameOfCompany;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.isBlocked = isBlocked;
+
+
+    }
+
+
     public Publisher() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Publisher(Long id, String nameOfCompany, String address, String phoneNumber, String email, String password, String username, String description, Date created_at, Date updated_at) {
+        this.id = id;
+        this.nameOfCompany = nameOfCompany;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.description = description;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 }

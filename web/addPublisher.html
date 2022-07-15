@@ -6,27 +6,94 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="Home.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
+<div class="sidebar">
+    <div class="logo-details">
+        <i class='bx bxl-c-plus-plus'></i>
+        <span class="logo_name">NewsPortal</span>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a href="Home.jsp" class="active">
+                <i class='bx bx-grid-alt'></i>
+                <span class="links_name">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="/viewNews">
+                <i class='bx bx-box'></i>
+                <span class="links_name">Product</span>
+            </a>
+        </li>
+        <li>
+            <a href="viewUsers">
+                <i class='bx bx-list-ul'></i>
+                <span class="links_name">Users list</span>
+            </a>
+        </li>
+        <li>
+            <a href="viewPublishers">
+                <i class='bx bx-list-ul'></i>
+                <span class="links_name">Publishers list</span>
+            </a>
+        </li>
+        <li>
+            <a href="addUser">
+                <i class='bx bx-pie-chart-alt-2'></i>
+                <span class="links_name">Add User</span>
+            </a>
+        </li>
+        <li>
+            <a href="/addNews">
+                <i class='bx bx-coin-stack'></i>
+                <span class="links_name">AddNews</span>
+            </a>
+        </li>
+        <li>
+            <a href="/addPublisher">
+                <i class='bx bx-coin-stack'></i>
+                <span class="links_name">AddPublisher</span>
+            </a>
+        </li>
 
-<form action="/addPublisher" , method="post" >
+
+        <li class="log_out">
+            <a href="/logout">
+                <i class='bx bx-log-out'></i>
+                <span class="links_name">Log out</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class='container' style="margin-left: 250px">
+
+<form action="/addPublisher" , method="post">
 
 
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="inputEmail4">Name</label>
-            <input type="text" name="name" class="form-control" id="inputEmail4" placeholder="Name">
+            <label for="inputEmail4">NameOfCompany</label>
+            <input type="text" name="nameOfCompany" class="form-control" id="inputEmail4" placeholder="NameOfCompany">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Username</label>
+            <input type="text" name="username" class="form-control" id="inputEmail5" placeholder="Username">
         </div>
         <div class="form-group col-md-6">
             <label for="inputPassword4">Address</label>
             <input type="text" name="address" class="form-control" id="inputPassword4" placeholder="Address">
         </div>
+
     </div>
     <div class="form-group">
         <label for="inputAddress">phoneNumber</label>
         <input type="text" name="phoneNumber" class="form-control" id="inputAddress" placeholder="phoneNumber">
-    </div><div class="form-group">
+    </div>
+    <div class="form-group">
         <label for="inputAddress">email</label>
         <input type="email" name="email" class="form-control" id="inputEmail" placeholder="email">
     </div>
@@ -36,6 +103,10 @@
         <label for="inputAddress2">Password</label>
         <input type="password" class="form-control" id="inputAddress2" name="password" placeholder="password">
     </div>
+    <div class="form-group">
+        <label for="inputAddress2">Description</label>
+        <input type="text" class="form-control" id="inputAddress4" name="description" placeholder="description">
+    </div>
 
 
     <button type="submit" class="btn btn-primary">Add</button>
@@ -43,9 +114,8 @@
     <a href="Home.jsp">Back to Home</a>
 
 
-
-
 </form>
+</div>
 
 
 </body>

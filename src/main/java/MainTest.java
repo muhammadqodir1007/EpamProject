@@ -19,7 +19,10 @@ public class MainTest {
 
 
         PublisherService publisherService=new PublisherService();
-        publisherService.deletebyid(2);
+        List<Publisher> all = publisherService.getAll();
+        for (Publisher publisher : all) {
+            System.out.println(publisher.getUsername());
+        }
 
     }
 

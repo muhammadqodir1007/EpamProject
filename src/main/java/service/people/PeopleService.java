@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PeopleService {
 
-    public  int addUser(PeopleBean bean) {
+    public int addUser(PeopleBean bean) {
         int i = 0;
         Connection connection = DB.getConnection();
 
@@ -51,16 +51,39 @@ public class PeopleService {
             list.add(bean);
 
         }
-        return  list;
+        return list;
 
 
     }
+
     public int deleteById(int id) throws SQLException {
         Connection connection = DB.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("delete from public.users where id=?");
-        preparedStatement.setInt(1,id);
+        preparedStatement.setInt(1, id);
         return preparedStatement.executeUpdate();
 
+
+    }
+
+    public PeopleBean getOneById(int id) throws SQLException {
+
+        Connection connection = DB.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from PUBLIC.users where id=?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        PeopleBean bean = new PeopleBean();
+        while (resultSet.next()) {
+
+            bean.setId(resultSet.getInt(1));
+            bean.setUsername(resultSet.getString(2));
+            bean.setFullName(resultSet.getString(3));
+            bean.setPassword(resultSet.getString(4));
+            bean.setPhoneNumber(resultSet.getString(5));
+            bean.setEmail(resultSet.getString(6));
+            bean.setCreatedAt(resultSet.getDate(7));
+        }
+
+        return bean;
 
 
     }

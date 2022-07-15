@@ -1,8 +1,9 @@
 package controller;
 
-
-import entity.PeopleBean;
-import service.people.PeopleService;
+import entity.Category;
+import entity.ProductBean;
+import service.category.CategoryServices;
+import service.product.ProductServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
-@WebServlet("/viewUsers")
-public class viewUsers extends HttpServlet {
-    PeopleService peopleService=new PeopleService();
+
+@WebServlet("/viewNewsByPublisher")
+public class viewNewsByPublisher extends HttpServlet {
+
+    ProductServiceImpl productService = new ProductServiceImpl();
 
 
     @Override
@@ -23,12 +26,11 @@ public class viewUsers extends HttpServlet {
         if (req.getSession().getAttribute("username")==null){
             resp.sendRedirect("login.jsp");
         }
-
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
         try {
-            List<PeopleBean> all = peopleService.getAll();
+            List<ProductBean> all = productService.getByUserName(Math.toIntExact(Login.publisher.getId()));
             out.print("<!DOCTYPE html>");
             out.print("<html>");
             out.println("<head>");
@@ -36,28 +38,34 @@ public class viewUsers extends HttpServlet {
             out.println("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">");
             out.println("</head>");
             out.println("<body>");
-            req.getRequestDispatcher("NavAdmin.html").include(req, resp);
+            req.getRequestDispatcher("NavPublisher.html").include(req,resp);
             out.println("<div class='container' style=\"margin-left: 250px\">");
             out.println("<table class='table table-bordered table-striped'>");
-            out.println("<tr><th>Username</th><th>fullName</th><th>Password</th><th>phone</th><th>email</th><th>registered date</th></tr>");
+            out.println("<tr><th>title</th><th>description</th><th>link</th><th>time</th><th>category</th></tr>");
 
 
-            for (PeopleBean bean : all) {
+            for (ProductBean productBean : all) {
+                Category one = CategoryServices.getOne(productBean.getCategory_Id());
+                String name = one.getName();
 
 
-                out.println("<tr><td>" + bean.getUsername() + "</td><td>" + bean.getFullName() + "</td><td>" + bean.getPassword() + "</td><td>" + bean.getPhoneNumber() + "</td><td>" + bean.getEmail() + "</td><td>" + bean.getCreatedAt() + "</td><td><a href='deleteUser?id=" + bean.getId() + "'>Delete</a></td></tr>");
+                out.println("<tr><td>" + productBean.getTitles() + "</td><td>" + productBean.getDescription() + "</td><td>" + productBean.getSourceLinkTo() + "</td><td>"+productBean.getCreatedTime()+"</td><td>"+name+"</td><td><a href='deleteNewsByPublisher?id=" + productBean.getId() + "'>Delete</a></td></tr>");
 
-            }
 //
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        out.println("</table>");
-        out.println("</div>");
-        out.println("</body>");
-        out.println("</html>");
+//
+            }
+            out.println("</table>");
+            out.println("</div>");
+            out.println("</body>");
+            out.println("</html>");
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }}
 
 
 
-    }
+
+
 }

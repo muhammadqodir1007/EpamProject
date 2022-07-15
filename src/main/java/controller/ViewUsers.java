@@ -1,7 +1,8 @@
 package controller;
 
-import entity.ProductBean;
-import service.product.ProductServiceImpl;
+
+import entity.PeopleBean;
+import service.people.PeopleService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet("/returnOne")
-public class ReturnOne extends HttpServlet {
-    ProductServiceImpl productService = new ProductServiceImpl();
+@WebServlet("/viewUsers")
+public class ViewUsers extends HttpServlet {
+    PeopleService peopleService = new PeopleService();
 
 
     @Override
@@ -23,10 +25,12 @@ public class ReturnOne extends HttpServlet {
             resp.sendRedirect("login.jsp");
         } else {
 
-            PrintWriter out = resp.getWriter();
-            try {
 
-                ProductBean id = productService.getOne(Integer.parseInt(req.getParameter("id")));
+            resp.setContentType("text/html");
+            PrintWriter out = resp.getWriter();
+
+            try {
+                List<PeopleBean> all = peopleService.getAll();
                 out.print("<!DOCTYPE html>");
                 out.print("<html>");
                 out.println("<head>");
@@ -37,24 +41,25 @@ public class ReturnOne extends HttpServlet {
                 req.getRequestDispatcher("NavAdmin.html").include(req, resp);
                 out.println("<div class='container' style=\"margin-left: 250px\">");
                 out.println("<table class='table table-bordered table-striped'>");
-                out.println("<tr><th>title</th><th>description</th><th>link</th><th>time</th><th>category</th></tr>");
-                String category = "";
+                out.println("<tr><th>Username</th><th>fullName</th><th>Password</th><th>phone</th><th>email</th><th>registered date</th></tr>");
 
-                switch (id.getCategory_Id()) {
-                    case 1:
-                        category = "General";
-                    case 2:
-                        category = "Politics";
-                    case 3:
-                        category = "Sport";
+
+                for (PeopleBean bean : all) {
+
+
+                    out.println("<tr><td>" + bean.getUsername() + "</td><td>" + bean.getFullName() + "</td><td>" + bean.getPassword() + "</td><td>" + bean.getPhoneNumber() + "</td><td>" + bean.getEmail() + "</td><td>" + bean.getCreatedAt() + "</td><td><a href='deleteUser?id=" + bean.getId() + "'>Delete</a></td></tr>");
 
                 }
-                out.println("<tr><td>" + id.getTitles() + "</td><td>" + id.getDescription() + "</td><td>" + id.getSourceLinkTo() + "</td><td>" + id.getCreatedTime() + "</td><td>" + category + "</td></tr>");
-
-
-            } catch (SQLException e) {
-                e.printStackTrace();
+//
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
+            out.println("</table>");
+            out.println("</div>");
+            out.println("</body>");
+            out.println("</html>");
+
+
         }
     }
 }

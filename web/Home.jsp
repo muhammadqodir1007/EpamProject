@@ -25,12 +25,12 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
+<body style="background-color: #66b0ff">
 
 <%
 
 
-    if (session.getAttribute("username")==null){
+    if (session.getAttribute("username") == null) {
         response.sendRedirect("login.jsp");
     }
 
@@ -74,21 +74,21 @@
     PeopleService peopleService = new PeopleService();
     List<PeopleBean> all = peopleService.getAll();
     connection1.close();
-    Connection connection2=DB.getConnection();
+    Connection connection2 = DB.getConnection();
     Statement statement3 = connection2.createStatement();
     ResultSet resultSet2 = statement3.executeQuery("select count (*) from public.category");
-    int numberOfCat=0;
-    while (resultSet2.next()){
-      numberOfCat = resultSet2.getInt(1);
-   }
+    int numberOfCat = 0;
+    while (resultSet2.next()) {
+        numberOfCat = resultSet2.getInt(1);
+    }
     connection.close();
-    Connection connection3=DB.getConnection();
+    Connection connection3 = DB.getConnection();
     Statement statement4 = connection3.createStatement();
     ResultSet resultSet3 = statement4.executeQuery("select count (*) from public.publisher");
-    int numberOfPublishers=0;
-    while (resultSet3.next()){
-      numberOfPublishers=resultSet3.getInt(1);
-   }
+    int numberOfPublishers = 0;
+    while (resultSet3.next()) {
+        numberOfPublishers = resultSet3.getInt(1);
+    }
 
 
 %>
@@ -140,6 +140,12 @@
                 <span class="links_name">AddPublisher</span>
             </a>
         </li>
+        <li>
+            <a href="/viewComplains">
+                <i class='bx bx-coin-stack'></i>
+                <span class="links_name">ViewComplains</span>
+            </a>
+        </li>
 
 
         <li class="log_out">
@@ -180,7 +186,8 @@
                     </div>
                 </div>
                 <i class='bx bx-cart-alt cart'></i>
-            </div> <div class="box">
+            </div>
+            <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Total Categories</div>
                     <div class="number"><%=numberOfCat%>
@@ -191,7 +198,8 @@
                     </div>
                 </div>
                 <i class='bx bx-cart-alt cart'></i>
-            </div><div class="box">
+            </div>
+            <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Total Publishers</div>
                     <div class="number"><%=numberOfPublishers%>
@@ -231,9 +239,15 @@
                     <li><a href="/returnOne?id=<%=list.get(1).getId()%>"><%=list.get(list.size() - 2).getCreatedTime()%>
                     </a> <%=list.get(1).getTitles()%>
                     </li>
-                                        <li><a href="/returnOne?id=<%=list.get(2).getId()%>"><%=list.get(list.size()-3).getCreatedTime()%></a>    <%=list.get(2).getTitles()%></li>
-                                        <li><a href="/returnOne?id=<%=list.get(3).getId()%>"><%=list.get(list.size()-4).getCreatedTime()%></a>    <%=list.get(3).getTitles()%></li>
-                                        <li><a href="/returnOne?id=<%=list.get(4).getId()%>"><%=list.get(list.size()-5).getCreatedTime()%></a>    <%=list.get(4).getTitles()%></li>
+                    <li><a href="/returnOne?id=<%=list.get(2).getId()%>"><%=list.get(list.size() - 3).getCreatedTime()%>
+                    </a> <%=list.get(2).getTitles()%>
+                    </li>
+                    <li><a href="/returnOne?id=<%=list.get(3).getId()%>"><%=list.get(list.size() - 4).getCreatedTime()%>
+                    </a> <%=list.get(3).getTitles()%>
+                    </li>
+                    <li><a href="/returnOne?id=<%=list.get(4).getId()%>"><%=list.get(list.size() - 5).getCreatedTime()%>
+                    </a> <%=list.get(4).getTitles()%>
+                    </li>
                 </ul>
             </div>
             <div class="recent-sales box">

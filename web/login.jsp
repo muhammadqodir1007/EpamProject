@@ -14,16 +14,19 @@
 
 </head>
 <body style="margin: 40px">
-<form  action="/" style="text-align: center ; width: 500px ; margin-left: 500px ; margin-top: 100px "  method="post"  >
+<form action="/"
+      style="text-align: center ; width: 500px ; border-radius: 50px; margin-left: 500px ; margin-top: 100px "
+      method="post">
 
     <div class="form-outline mb-4">
-        <input type="text" id="form2Example1" class="form-control" name="name" required />
+        <input type="text" id="form2Example1" class="form-control" name="name" required style="border-radius: 30px"/>
         <label class="form-label" for="form2Example1">USERNAME</label>
     </div>
 
 
     <div class="form-outline mb-4">
-        <input type="password" id="form2Example2" class="form-control" name="password"  id="validationCustom05" required/>
+        <input type="password" id="form2Example2" class="form-control" name="password" style="border-radius: 30px" id="validationCustom05"
+               required/>
         <label class="form-label" for="form2Example2">PASSWORD</label>
     </div>
 

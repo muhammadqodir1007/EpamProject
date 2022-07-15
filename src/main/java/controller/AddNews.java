@@ -29,10 +29,11 @@ public class AddNews extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("username") == null) {
+        if (req.getSession().getAttribute("username") == null|| ! Login.name.equals("Alex")) {
             resp.sendRedirect("login.jsp");
-        }
-        if (Login.name.equals("Alex")) {
+        }else {
+
+
             resp.setContentType("text/html");
             PrintWriter out = resp.getWriter();
             out.print("<!DOCTYPE html>");
@@ -90,6 +91,10 @@ public class AddNews extends HttpServlet {
                     "        <label for=\"inputAddress2\">Text</label>\n" +
                     "        <input type=\"text\" class=\"form-control\" id=\"inputAddress3\" name=\"text\" placeholder=\"text\">\n" +
                     "    </div>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "        <label for=\"inputAddress2\">Text</label>\n" +
+                    "        <input type=\"number\" class=\"form-control\" id=\"inputAddress3\" name=\"publisherId\" placeholder=\"publisherId\">\n" +
+                    "    </div>\n" +
                     "\n" +
                     "\n" +
                     "    <button type=\"submit\" class=\"btn btn-primary\">Add</button>\n" +
@@ -107,8 +112,6 @@ public class AddNews extends HttpServlet {
             out.println("</html>");
 
 
-        }else {
-            resp.sendRedirect("Home.jsp");
         }
     }
 
@@ -120,6 +123,7 @@ public class AddNews extends HttpServlet {
         String link = req.getParameter("link");
         Part photo = req.getPart("photo");
         String categoryId = req.getParameter("categoryId");
+        String publisherId = req.getParameter("publisherId");
         System.out.println(categoryId);
         System.out.println(categoryId);
         Date date = new Date(System.currentTimeMillis());
@@ -137,11 +141,12 @@ public class AddNews extends HttpServlet {
         productBean.setPhotoFile(photo.getInputStream().readAllBytes());
         productBean.setCreatedTime(date);
         productBean.setText(text);
+        productBean.setPublisher_id(Integer.parseInt(publisherId));
 
         productBean.setCategory_Id(integer);
         System.out.println(productBean.getTitles());
         System.out.println(productBean.getCategory_Id());
-
+        System.out.println(productBean.getPublisher_id());
 
         try {
             int i = productService.addNews(productBean);
