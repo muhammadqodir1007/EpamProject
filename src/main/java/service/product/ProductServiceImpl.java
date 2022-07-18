@@ -27,7 +27,9 @@ public class ProductServiceImpl implements ProductService {
             "\tFROM public.product where created_at=(select max(created_at) from public.product)";
     private static final String GET_CATEGORY_NAME = "SELECT name\tFROM public.product inner join category on category.id=product.category_id\n" +
             "where product.category_id=?";
-    private static final String PRODUCT_ID = "SELECT id, titles, textdata, description, sourcelinkto, photofile, created_at, updated_at, category_id, publisher_id, \"counterOfView\"\n" +
+    private static final String PRODUCT_ID = "SELECT id, titles, textdata, description, sourcelinkto, photofile," +
+            " created_at, updated_at, category_id," +
+            " publisher_id, \"counterOfView\"\n" +
             "\tFROM public.product  where id=?";
     private static final String GET_PRODUCTS_BY_TITLE = "SELECT id, titles, textdata, description, \"sourcelinkto\", photofile, created_at, updated_at, category_id\n" +
             "\tFROM public.product where titles like '%?%'";
