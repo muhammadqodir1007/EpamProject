@@ -17,12 +17,14 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static service.users.UserValidation.*;
+
 public class UserService {
     private static final String GET_AUTHENTICATE = "SELECT id, username, \"fullName\", password, \"phoneNumber\", email, created_at, updated_at\n" +
             "\tFROM public.users where username=? and password=?";
     private static final String SAVE_USERS = "INSERT INTO public.users(\n" +
             "\tusername, \"fullName\", password, \"phoneNumber\", email)\n" +
-            "\tVALUES (?, ?, ?, ?,?);";
+            "\tVALUES (?, ?, ?, ?, ?);";
     private static final String GET_ALL_USERS = "SELECT id, username, \"fullName\", password, \"phoneNumber\", email, created_at, updated_at\n" +
             "\tFROM public.users";
     private static final String SAVE_MASSAGE = "INSERT INTO public.complain(\n" +
@@ -202,19 +204,14 @@ public class UserService {
         return users.getId();
     }
 
-    public boolean isUserExist(Users users) {
-        boolean status = false;
-        List<Users> usersList = getAllUser();
-        Set<Users> users1 = usersList.stream().collect(Collectors.toSet());
-        Predicate<Users> predicate = (s) -> s.equals(users);
-        for (Users users2 : users1) {
-            if (predicate.test(users2)) {
-                status = true;
-            } else {
-                continue;
-            }
-        }
-        return status;
+    public String isUserExist(Users users) {
+        ValidResult validResult = isEmailValid()
+                .and(isFullNameValid())
+                .and(isUserNameValid())
+                .and(isPhoneNumberValid())
+                .apply(users);
+        String resulting = validResult.name();
+        return resulting;
     }
 
 
