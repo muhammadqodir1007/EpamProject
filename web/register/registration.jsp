@@ -133,18 +133,23 @@
 </style>
 <body>
 <jsp:include page="../header/header.jsp"></jsp:include>
-
-<section class="vh-100 gradient-custom">
-    <c:if test="${msg==false}">
-        <div class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-                <use xlink:href="#exclamation-triangle-fill"/>
-            </svg>
-            <div>
-               You have an account bru
-            </div>
+<c:if test="${msgD!=null}">
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Well done!</h4>
+        <p><c:out value='${msgD}'/></p>
+    </div>
+</c:if>
+<c:if test="${msg!=null}">
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            <p> <c:out value='${msg}'/></p>
         </div>
-    </c:if>
+    </div>
+</c:if>
+<section class="vh-100 gradient-custom">
+
+
 
     <div class="container py-5 h-100">
         <div class="row justify-content-center align-items-center h-100">
@@ -158,9 +163,9 @@
                                 <div class="col-md-6 mb-4">
 
                                     <div class="form-outline">
-                                        <input type="text" name="username" required
+                                        <input type="text" name="username" value="<c:out value='${users.username}'/>" required
                                                class="form-control form-control-lg"/>
-                                        <label class="form-label">Your name<span
+                                        <label class="form-label">Your user name<span
                                                 class="text-danger">*</span></label> </label>
 
                                     </div>
@@ -169,7 +174,7 @@
                                 <div class="col-md-6 mb-4">
 
                                     <div class="form-outline">
-                                        <input type="text" name="fullName" required
+                                        <input type="text" name="fullName" value="<c:out value='${users.fullName}'/>"  required
                                                class="form-control form-control-lg"/>
                                         <label class="form-label">Full name<span
                                                 class="text-danger">*</span></label></label>
@@ -182,7 +187,7 @@
                                 <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                     <div class="form-outline datepicker w-100">
-                                        <input type="password" required name="password"
+                                        <input type="password" value="<c:out value='${users.password}'/>" required name="password"
                                                class="form-control form-control-lg">
                                         <label class="form-label">Password<span
                                                 class="text-danger">*</span></label></label>
@@ -192,7 +197,7 @@
                                 <div class="col-md-6 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="email" required name="email" class="form-control form-control-lg"/>
+                                        <input type="email" value="<c:out value='${users.email}'/>" required name="email" class="form-control form-control-lg"/>
                                         <label class="form-label">Email<span
                                                 class="text-danger">*</span></label></label>
                                     </div>
@@ -205,7 +210,7 @@
                                 <div class="col-md-12 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="tel" required name="phoneNumber"
+                                        <input type="tel" value="<c:out value='${users.phoneNumber}'/>"required name="phoneNumber"
                                                class="form-control form-control-lg"/>
                                         <label class="form-label">Phone Number</label>
                                     </div>
@@ -222,68 +227,6 @@
         </div>
     </div>
 </section>
-<script type="text/javascript">
-    var b =<c:out value='${result}'/>;
-    if (b = true) {
-        window.onload = function () {
-            OpenBootstrapPopup();
-        };
-
-        function OpenBootstrapPopup() {
-            $("#success_").modal('show');
-        }
-    }
-    if (b = false) {
-        window.onload = function () {
-            OpenBootstrapPopup();
-        };
-
-        function OpenBootstrapPopup() {
-            $("#wrong_tic").modal('show');
-        }
-    }
-</script>
-<%--Wrong massage--%>
-<div id="wrong_tic" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <button type="button" class="btn-close" aria-hidden="true" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            <div class="page-body">
-                <div class="head">
-                    <h4>Something wrong check please</h4>
-                </div>
-
-                <h1 style="text-align:center;">
-                    <div class="checkmark-circle">
-                        <div class="background2"></div>
-                        <div class="checkmark draw"></div>
-                    </div>
-                </h1>
-
-            </div>
-        </div>
-    </div>
-
-</div>
-<%--success modal--%>
-<div id="success_" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <button type="button" class="btn-close" aria-hidden="true" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            <div class="page-body">
-                <div class="head">
-                    <h4>User has been saved correctly</h4>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-</div>
 <script
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"></script>
