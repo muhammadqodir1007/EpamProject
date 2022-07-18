@@ -78,6 +78,14 @@ public class Users {
         this.updated_at = updated_at;
     }
 
+    public Users(String username, String fullName, String password, String phoneNumber, String email) {
+        this.username = username;
+        this.fullName = fullName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     public Users() {
 
     }
