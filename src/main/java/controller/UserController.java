@@ -109,8 +109,8 @@ public class UserController extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-         userService.updateUser(username,fullName,password,phoneNumber,email,users.getId());
-            response.sendRedirect("/");
+        userService.updateUser(username, fullName, password, phoneNumber, email, users.getId());
+        response.sendRedirect("/");
     }
 
     protected void potComplaining(HttpServletRequest request, HttpServletResponse response)
@@ -230,19 +230,32 @@ public class UserController extends HttpServlet {
         users.setEmail(email);
 
         try {
-            if (userService.isUserExist(users)) {
-                request.setAttribute("msg", false);
+            if (userService.isUserExist(users) != "SUCCESS") {
+                String resul = userService.isUserExist(users);
+                if (resul.equals("USERNAME_NOT_VALID")) {
+                    request.setAttribute("msg", "Username has already taken");
+                }
+                if (resul.equals("FULLNAME_NOT_VALID")) {
+                    request.setAttribute("msg", "Fullname has already taken");
+                }
+                if (resul.equals("PHONE_NUMBER_NOT_VALID")) {
+                    request.setAttribute("msg", "Phone number has already taken");
+                }
+                if (resul.equals("EMAIL_NOT_VALID")) {
+                    request.setAttribute("msg", "Email has already taken");
+                }
+                request.setAttribute("users",users);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/showRegister");
                 dispatcher.forward(request, response);
 
             } else {
                 int result = userService.saveUser(users);
                 if (result == 1) {
-                    request.setAttribute("result", true);
+                    request.setAttribute("msgD","Your information saved successfully, you can sign in");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/showRegister");
                     dispatcher.forward(request, response);
                 } else {
-                    request.setAttribute("result", false);
+                    request.setAttribute("msgD", "Something wrong inside database");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/showRegister");
                     dispatcher.forward(request, response);
                 }
