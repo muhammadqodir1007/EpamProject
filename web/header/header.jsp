@@ -220,15 +220,15 @@
 </nav>
 <c:if test="${falseUser==false}">
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Wrong user Brug!</strong> You should sign up right here.
-    <a href="/register/registration.jsp">Signup</a>
+    <strong>Wrong user Bru!</strong> You should sign up right here.
+    <a href="showRegister">Signup</a>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     </button>
 </div>
 </c:if>
 <!-- Page header with logo and tagline-->
 <header class="py-5 bg-light border-bottom mb-4">
-    <div class="container my-5">
+    <div class="container my-5"
         <div class="text-center my-5">
             <h1 class="fw-bolder">Welcome to our news world</h1>
             <p class="lead mb-0">Enjoy the life</p>
