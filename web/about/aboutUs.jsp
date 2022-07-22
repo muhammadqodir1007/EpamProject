@@ -116,16 +116,16 @@
 
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
 </head>
 <body>
-<%--<jsp:include page="../header/header.jsp"></jsp:include>--%>
 <%@ page import="payload.CookieService" %>
 <%@ page import="entity.Users" %>
 <%@ page import="java.util.List" %>
 <%@ page import="entity.Publisher" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Arrays" %>
 <%@ page import="service.publisher.PublisherServices" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -290,8 +290,6 @@
         }
     }
 
-</style>
-<style>
     body {
         background-color: #eee
     }
@@ -361,6 +359,7 @@
         }
     }
 </style>
+
 <%
     CookieService service = new CookieService();
     Users user = service.getCurrentUser(request);
@@ -396,7 +395,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a class="dropdown-item" href="userSetting">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Massage</a></li>
+                                <li><a class="dropdown-item" href="messageThought">Massage</a></li>
                                 <li><a class="dropdown-item" href="logout">Logout</a></li>
                             </ul>
                         </div>
@@ -557,23 +556,12 @@
 
 <main>
     <div class="container py-4">
-        <header class="pb-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-                <span class="fs-4">This is about us page</span>
-            </a>
-        </header>
-
-        <div class="p-5 mb-4 bg-light rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">About us</h1>
-                <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one
-                    in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it
-                    to your liking.</p>
-            </div>
-        </div>
-
+<%--        <header class="pb-3 mb-4 border-bottom">--%>
+<%--            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">--%>
+<%--                <span class="fs-4">This is about us page</span>--%>
+<%--            </a>--%>
+<%--        </header>--%>
         <div class="row align-items-md-stretch">
-
             <div class="col-md-12">
                 <div class="h-100 p-5 bg-light border rounded-3">
                     <h2 style="position: center">Our Publisher companies</h2>
@@ -589,8 +577,7 @@
         <div class="container mt-5 mb-3">
             <div class="row">
                 <%
-                    PublisherServices publisherServices = new PublisherServices();
-                    List<Publisher> publisherList = publisherServices.getAllPublisher();
+                    List<Publisher> publisherList=(List<Publisher>) session.getAttribute("publisherList");
                     for (Publisher publisher : publisherList) {
                 %>
                 <div class="col-md-4">
@@ -634,14 +621,56 @@
                                     <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50"
                                          aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                                <div class="mt-3"><span class="text1">32 Applied <span
-                                        class="text2"><%=publisher.getEmail()%></span></span></div>
+                                <div class="mt-3">
+                                    <span class="text1">32 Applied
+                                        <span class="text2"><%=publisher.getEmail()%>
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-3 mb-3">
+                                    <a href="#" style="color: black">
+                                        <i class="far fa-comment-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
                 <%}%>
             </div>
+
+        </div>
+        <div class="container mt-5 mb-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="pagination">
+                        <c:if test="${currentPage != 1}">
+                            <li class="page-item"><a class="page-link" href="aboutUs?page=${currentPage - 1}">Previous</a>
+                            </li>
+                        </c:if>
+                        <c:forEach begin="1" end="${numb}" var="i">
+                            <c:choose>
+                                <c:when test="${currentPage eq i}">
+                                    <li class="page-item active"><a class="page-link" href="#">${i}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item"><a class="page-link" href="aboutUs?page=${i}">${i}</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <%--                        <li class="page-item active"><a class="page-link" href="#">2</a></li>--%>
+
+                        <c:if test="${currentPage lt numb}">
+                            <li class="page-item"><a class="page-link" href="aboutUs?page=${currentPage + 1}">Next</a></li>
+                        </c:if>
+                    </ul>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </main>
