@@ -174,7 +174,7 @@
 
                     <div  class="d-flex justify-content-between">
                         <div>
-                            <div class="small text-muted"><c:out value="${currentProduct.created_at}"/>
+                            <div class="small text-muted"><i class="bi bi-calendar"></i> <c:out value="${currentProduct.created_at}"/>
                         </div>
                         <div class="small text-muted">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
