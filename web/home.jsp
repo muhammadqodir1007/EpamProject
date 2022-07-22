@@ -12,6 +12,7 @@
 <head>
     <title>Online news blog</title>
     <jsp:include page="header/header2.jsp"></jsp:include>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 <body>
 <jsp:include page="header/header.jsp"></jsp:include>
@@ -26,7 +27,7 @@
                      src="data:image/png;base64,${latestProduct.photofile}" width="700" height="350"
                      alt="..."/>
                 <div class="card-body">
-                    <div class="small text-muted"><c:out value='${latestProduct.created_at}'/>
+                    <div class="small text-muted"><i class="bi bi-calendar"></i> <c:out value='${latestProduct.created_at}'/>
                     </div>
                     <h2 class="card-title"><c:out value='${latestProduct.titles}'/>
                     </h2>
@@ -51,7 +52,7 @@
                             <div class="card-body">
                                 <div style="display: flex; justify-content: space-between">
                                     <div>
-                                        <div class="small text-muted"><c:out value="${news.created_at}"/></div>
+                                        <div class="small text-muted"><i class="bi bi-calendar"></i> <c:out value="${news.created_at}"/></div>
                                     </div>
                                     <div class="small text-muted">
                                         <c:out value="${news.name}"/>
@@ -60,7 +61,8 @@
                                 <h2 class="card-title h4"><c:out value="${news.titles}"/></h2>
                                 <p class="card-text"><c:out value="${news.description}"/></p><br>
                                 <a href="singleData?id=<c:out value='${news.id}' />"
-                                   class="btn btn-primary">Read more →</a>
+                                   class="btn btn-outline-success btn-sm">Read More</a>
+
                             </div>
                         </div>
                     </div>
