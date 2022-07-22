@@ -232,8 +232,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="aboutUs">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="modal" href="#exampleModal">
                         Subscribtion
@@ -254,7 +254,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a class="dropdown-item" href="userSetting">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Massage</a></li>
+                                <li><a class="dropdown-item" href="messageThought">Massage</a></li>
                                 <li><a class="dropdown-item" href="logout">Logout</a></li>
                             </ul>
                         </div>
