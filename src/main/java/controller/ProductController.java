@@ -4,6 +4,7 @@ import entity.Category;
 import entity.Product;
 
 import entity.Publisher;
+import org.apache.catalina.session.StandardSession;
 import payload.ProductResponse;
 import service.category.CategoryService;
 import service.product.ProductService;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -89,13 +91,10 @@ public class ProductController extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String textMassage = request.getParameter("textMassage");
-        if (productService.saveContactMassage(username,email,textMassage)==1)
-        {
-            request.setAttribute("msg",true);
-        }
-        else
-        {
-            request.setAttribute("msg",false);
+        if (productService.saveContactMassage(username, email, textMassage) == 1) {
+            request.setAttribute("msg", true);
+        } else {
+            request.setAttribute("msg", false);
         }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/contact");
         dispatcher.forward(request, response);
@@ -124,8 +123,19 @@ public class ProductController extends HttpServlet {
 
     protected void getAbout(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        List<Publisher> publisherList = publisherServices.getAllPublisher();
-        request.setAttribute("listPub", publisherList);
+        int page=1;
+        int recordsPerPage = 3;
+        if (request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+        List<Publisher> getListedPubs=publisherServices
+                .getViewPublishers((page-1)*recordsPerPage,recordsPerPage);
+        long numb = publisherServices.getnoOfRecords();
+        int result = (int) Math.ceil(numb * 1.0/ 3);
+        request.setAttribute("currentPage",page);
+//        request.setAttribute("publisherList",getListedPubs);
+        HttpSession httpSession=request.getSession();
+        httpSession.setAttribute("publisherList",getListedPubs);
+        request.setAttribute("numb", result);
         RequestDispatcher dispatcher = request.getRequestDispatcher("about/aboutUs.jsp");
         dispatcher.forward(request, response);
     }
