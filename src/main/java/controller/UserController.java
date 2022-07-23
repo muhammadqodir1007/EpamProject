@@ -22,7 +22,7 @@ import java.util.TreeSet;
 
 @WebServlet(urlPatterns = {"/sendEmail", "/registration",
         "/showRegister", "/login", "/logout",
-        "/userSetting", "/complain", "/complained", "/changeProfile"})
+        "/userSetting", "/complain", "/complained", "/changeProfile","/messageThought"})
 public class UserController extends HttpServlet {
     private EmailServices emailServices;
     private UserService userService;
@@ -73,6 +73,9 @@ public class UserController extends HttpServlet {
                 case "/userSetting":
                     setting(request, response);
                     break;
+                    case "/messageThought":
+                    showingMsg(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -86,6 +89,15 @@ public class UserController extends HttpServlet {
         Publisher publisher = publisherServices.getPublisherById(id);
         request.setAttribute("publish", publisher);
         RequestDispatcher dispatcher = request.getRequestDispatcher("complain/complaining.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    protected void showingMsg(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+//
+//        int id = Integer.parseInt(request.getParameter("id"));
+//
+        RequestDispatcher dispatcher = request.getRequestDispatcher("message/messageThought.jsp");
         dispatcher.forward(request, response);
     }
 
