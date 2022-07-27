@@ -437,7 +437,11 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><c:out value="${publisherAtribute.nameOfCompany}"/></h5>
-                            <p class="card-text"><c:out value="${publisherAtribute.description}"/></p>
+                            <p class="card-text">${publisherAtribute.description}
+
+
+
+                            </p>
 <%--                            <a href="#" class="btn btn-primary">Go somewhere</a>--%>
                         </div>
 <%--                        <div class="card-footer text-muted">--%>
