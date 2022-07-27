@@ -112,11 +112,21 @@ public class ProductController extends HttpServlet {
 
     protected void newsList(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        List<ProductResponse> productList = productService.getAllProduct();
         Product product = productService.getOneProduct();
         request.setAttribute("latestProduct", product);
         commonItems(request, response);
-        request.setAttribute("productList", productList);
+        int page=1;
+        int recordsPerPage = 6;
+        if (request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+        List<ProductResponse> productList1=productService
+                .getAllProduct((page-1)*recordsPerPage,recordsPerPage);
+        long numb = productService.getnoOfRecords();
+        int result = (int) Math.ceil(numb * 1.0/ 6);
+        request.setAttribute("currentPage",page);
+        HttpSession httpSession=request.getSession();
+        httpSession.setAttribute("productList",productList1);
+        request.setAttribute("numb", result);
         RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
         dispatcher.forward(request, response);
     }
@@ -132,7 +142,6 @@ public class ProductController extends HttpServlet {
         long numb = publisherServices.getnoOfRecords();
         int result = (int) Math.ceil(numb * 1.0/ 3);
         request.setAttribute("currentPage",page);
-//        request.setAttribute("publisherList",getListedPubs);
         HttpSession httpSession=request.getSession();
         httpSession.setAttribute("publisherList",getListedPubs);
         request.setAttribute("numb", result);
