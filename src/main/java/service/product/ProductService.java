@@ -8,7 +8,8 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface ProductService {
-    List<ProductResponse> getAllProduct();
+    List<ProductResponse> getAllProduct(int offset, int noOfRecords);
+    long getnoOfRecords();
     Product getProductByID(long id) throws ParseException;
     List<Product> getProductByTitleandCategory(String sampletitle,int category_id);
     List<Product> getProductByTitles(String sampletitle);
