@@ -363,6 +363,7 @@
 <%
     CookieService service = new CookieService();
     Users user = service.getCurrentUser(request);
+    boolean isAc=user.isActive();
 %>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -628,14 +629,20 @@
                                     </span>
                                 </div>
                             </div>
+                           <%
+                               if (isAc)
+                            {
+                            %>
                             <div class="row">
                                 <div class="col-sm-3 mb-3">
-                                    <a href="#" style="color: black">
+                                    <a href="complain?id=<%=publisher.getId()%>" style="color: black">
                                         <i class="far fa-comment-alt"></i>
                                     </a>
                                 </div>
                             </div>
-
+<%
+    }
+%>
                         </div>
                     </div>
                 </div>
@@ -648,7 +655,8 @@
                 <div class="col-md-12">
                     <ul class="pagination">
                         <c:if test="${currentPage != 1}">
-                            <li class="page-item"><a class="page-link" href="aboutUs?page=${currentPage - 1}">Previous</a>
+                            <li class="page-item">
+                                <a class="page-link" href="aboutUs?page=${currentPage - 1}">Previous</a>
                             </li>
                         </c:if>
                         <c:forEach begin="1" end="${numb}" var="i">
