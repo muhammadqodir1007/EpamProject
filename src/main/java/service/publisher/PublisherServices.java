@@ -1,6 +1,7 @@
 package service.publisher;
 
 import database.DB;
+import entity.Product;
 import entity.Publisher;
 
 import java.io.UnsupportedEncodingException;
@@ -33,6 +34,7 @@ public class PublisherServices {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         return preparedStatement;
     }
+
 
     public List<Publisher> getViewPublishers(int offset, int noOfRecords) {
         String s = "SELECT id, \"nameOfCompany\", address, description," +
@@ -75,7 +77,7 @@ public class PublisherServices {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT count(*) FROM public.publisher ");
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
-                noOfRecords=resultSet.getLong("count");
+                noOfRecords = resultSet.getLong("count");
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
