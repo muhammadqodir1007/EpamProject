@@ -364,7 +364,8 @@
                    if (isAc)
                    {
                    %>
-                        <a href="complain?id=<c:out value='${currentPublisher.id}' />"type="button" class="btn btn-outline-primary ms-1">Complain</a>
+                        <a href="complain?id=<c:out value='${currentPublisher.id}' />"type="button"
+                           class="btn btn-outline-primary ms-1">Thought</a>
                    <%
                        }
                    %>
