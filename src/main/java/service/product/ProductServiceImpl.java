@@ -21,8 +21,6 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private static final String GET_ALL_PRODUCTS = "SELECT product.id, titles, textdata, description, sourcelinkto, photofile,created_at, category.name\n" +
-            "\tFROM public.product inner join category on product.category_id=category.id";
     private static final String GET_PRODUCT_LATEST_ONE = "SELECT id, titles, textdata, description, sourcelinkto, photofile, created_at, updated_at, category_id\n" +
             "\tFROM public.product where created_at=(select max(created_at) from public.product)";
     private static final String GET_CATEGORY_NAME = "SELECT name\tFROM public.product inner join category on category.id=product.category_id\n" +
@@ -106,28 +104,6 @@ public class ProductServiceImpl implements ProductService {
         return productList.get(0);
     }
 
-    @Override
-    public List<ProductResponse> getAllProduct() {
-        List<ProductResponse> productResponses = new ArrayList<>();
-        DateFormat dateFormat= new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.a");
-        try {
-            ResultSet rs = getresultSet(GET_ALL_PRODUCTS);
-            while (rs.next()) {
-                long id = rs.getLong("id");
-                String titles = rs.getString("titles");
-                String description = rs.getString("description");
-                String sourcelinkTo = rs.getString("sourcelinkto");
-                String photofile = new String(Base64.encodeBase64(rs.getBytes("photofile")), "UTF-8");
-                String name = rs.getString("name");
-                Date created_at =dateFormat.parse((dateFormat.format(rs.getTimestamp("created_at"))));
-                productResponses.add(new ProductResponse(id, titles, description,
-                        sourcelinkTo, photofile, name, created_at));
-            }
-        } catch (SQLException | UnsupportedEncodingException | ParseException exception) {
-            DB.printSQLException((SQLException) exception);
-        }
-        return productResponses;
-    }
 
     @Override
     public Product getProductByID(long id) throws ParseException {
@@ -221,6 +197,51 @@ public class ProductServiceImpl implements ProductService {
         } catch (SQLException exception) {
             DB.printSQLException(exception);
         }
+    }
+    @Override
+    public long getnoOfRecords() {
+        long noOfRecords = 0;
+        try {
+            Connection connection = DB.getConnection();
+            PreparedStatement preparedStatement = connection.
+                    prepareStatement("SELECT count(*)\n" +
+                            "\tFROM public.product;");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                noOfRecords = resultSet.getLong("count");
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return noOfRecords;
+    }
+
+    @Override
+    public List<ProductResponse> getAllProduct(int offset, int noOfRecords) {
+        List<ProductResponse> productResponses = new ArrayList<>();
+        DateFormat dateFormat= new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.a");
+        try {
+            Connection connection = DB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT product.id, titles, textdata," +
+                    " description, sourcelinkto, photofile, created_at, updated_at," +
+                    " category_id, publisher_id,category.name, \"counterOfView\", \"isDeleted\"\n" +
+                    "\tFROM public.product inner join category" +
+                    " on product.category_id=category.id order by product.id limit "+noOfRecords+" offset "+offset+"");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                String titles = rs.getString("titles");
+                String description = rs.getString("description");
+                String sourcelinkTo = rs.getString("sourcelinkto");
+                String photofile = new String(Base64.encodeBase64(rs.getBytes("photofile")), "UTF-8");
+                String name = rs.getString("name");
+                Date created_at =dateFormat.parse((dateFormat.format(rs.getTimestamp("created_at"))));
+                productResponses.add(new ProductResponse(id, titles, description,
+                        sourcelinkTo, photofile, name, created_at));
+            }
+        } catch (SQLException | UnsupportedEncodingException | ParseException exception) {
+            DB.printSQLException((SQLException) exception);
+        }
+        return productResponses;
     }
 
 }
